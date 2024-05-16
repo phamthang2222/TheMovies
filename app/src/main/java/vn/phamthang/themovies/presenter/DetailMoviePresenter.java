@@ -4,6 +4,7 @@ import vn.phamthang.themovies.Interface.DetailMovie.IMovieDetailPresenter;
 import vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView;
 import vn.phamthang.themovies.interactors.DetailMovieInteractor;
 import vn.phamthang.themovies.objects.BestMovieRespone;
+import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 
 public class DetailMoviePresenter  implements IMovieDetailPresenter {
@@ -18,7 +19,7 @@ public class DetailMoviePresenter  implements IMovieDetailPresenter {
         detailMovieInteractor.getDetailMovie(idMovie);
     }
     @Override
-    public void getDetailMovieSuccess(Result response) {
+    public void getDetailMovieSuccess(Movie response) {
         if(iMovieDetailView !=null){
             iMovieDetailView.getDetailMovieSuccess(response);
         }

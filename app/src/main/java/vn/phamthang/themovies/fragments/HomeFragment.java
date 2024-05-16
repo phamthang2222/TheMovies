@@ -1,7 +1,6 @@
 package vn.phamthang.themovies.fragments;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,6 +27,7 @@ import vn.phamthang.themovies.fragments.SubFragmentHome.PopularFragment;
 import vn.phamthang.themovies.fragments.SubFragmentHome.TopRateFragment;
 import vn.phamthang.themovies.fragments.SubFragmentHome.UpComingFragment;
 import vn.phamthang.themovies.objects.BestMovieRespone;
+import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
@@ -109,8 +109,7 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     }
 
     @Override
-    public void getDetailMovieSuccess(Result response) {
-        Toast.makeText(getContext(), "" + response.toString(), Toast.LENGTH_SHORT).show();
+    public void getDetailMovieSuccess(Movie response) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("movie",(Serializable)response);
         startActivity(intent);
