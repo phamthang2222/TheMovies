@@ -52,6 +52,6 @@ public class AboutMovieFragment extends Fragment {
         return binding.getRoot();
     }
     private void initData() {
-        binding.tvAboutMovie.setText(movie.getOverview()+"");
+        binding.tvAboutMovie.setText(movie.getOverview());
     }
 }
