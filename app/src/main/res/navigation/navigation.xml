@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="vn.phamthang.themovies.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_sreachFragment"
+            app:destination="@id/sreachFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_whisListFragment"
+            app:destination="@id/whisListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sreachFragment"
+        android:name="vn.phamthang.themovies.fragments.SreachFragment"
+        android:label="fragment_sreach"
+        tools:layout="@layout/fragment_sreach" />
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="vn.phamthang.themovies.view.HomeActivity"
+        android:label="activity_home"
+        tools:layout="@layout/activity_home" />
+    <fragment
+        android:id="@+id/whisListFragment"
+        android:name="vn.phamthang.themovies.fragments.WhisListFragment"
+        android:label="fragment_whis_list"
+        tools:layout="@layout/fragment_whis_list" >
+        <action
+            android:id="@+id/action_whisListFragment_to_sreachFragment"
+            app:destination="@id/sreachFragment" />
+    </fragment>
+</navigation>
