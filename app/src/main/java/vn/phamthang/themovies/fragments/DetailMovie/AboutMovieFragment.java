@@ -18,7 +18,7 @@ import vn.phamthang.themovies.objects.Movie;
 public class AboutMovieFragment extends Fragment {
 
     FragmentAboutMovieBinding binding;
-    private Movie movie = new Movie();
+    private Movie movie;
 
     public AboutMovieFragment() {
         // Required empty public constructor
@@ -36,13 +36,14 @@ public class AboutMovieFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             movie = (Movie) getArguments().getSerializable("movie");
+            initData();
         }
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initData();
+
     }
 
     @Override
@@ -52,6 +53,6 @@ public class AboutMovieFragment extends Fragment {
         return binding.getRoot();
     }
     private void initData() {
-        binding.tvAboutMovie.setText(movie.getOverview());
+        binding.tvAboutMovie.setText(movie.getOverview()+"");
     }
 }

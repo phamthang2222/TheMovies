@@ -9,9 +9,13 @@ public class Constant {
     public static final String  GET_DETAIL_MOVIE = "/3/movie/";
     public static final String  BASE_URL = "https://api.themoviedb.org";
     private static final String  BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w500/";
+    private static final String  BASE_URL_IMAGE2 = "https://image.tmdb.org/t/p/original";
     public static final String API_KEY = "?api_key=d63cb64edcf292fc628aa4c72c2cf6ab";
     public static  String convertLinkImage(String linkImage ){
         return BASE_URL_IMAGE+linkImage;
+    }
+    public static  String convertLinkImage2(String linkImage ){
+        return BASE_URL_IMAGE2+linkImage;
     }
 
 }

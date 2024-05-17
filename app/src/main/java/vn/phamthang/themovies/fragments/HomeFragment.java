@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -39,6 +41,7 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     private DetailMoviePresenter mDetailMoviePresenter;
     private ArrayList<Result> mListMovie;
     private SpecialMovieAdapter specialMovieAdapter;
+    private String edtSearch;
 
     FragmentHomeBinding binding;
 
@@ -55,6 +58,8 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        initView();
         initData();
         getMostMovie();
 
@@ -78,7 +83,17 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     private void getMostMovie() {
         mMoviePresenter.getDiscoverMovie();
     }
-
+    private void initView() {
+        binding.imgFind.setOnClickListener(v -> {
+            edtSearch = binding.edtFind.getText().toString().trim();
+            if(!edtSearch.isEmpty()){
+                EventBus.getDefault().post(new vn.phamthang.themovies.ultis.EventBus(edtSearch));
+                if (getActivity() instanceof OnFragmentInteractionListener) {
+                    ((OnFragmentInteractionListener) getActivity()).onSearch();
+                }
+            }
+        });
+    }
     private void initData() {
         mMoviePresenter = new MoviePresenter(this);
         mDetailMoviePresenter = new DetailMoviePresenter(this);
@@ -113,11 +128,13 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("movie",(Serializable)response);
         startActivity(intent);
-
     }
 
     @Override
     public void getDetailMovieError(String message) {
         Toast.makeText(getContext(), ""+message, Toast.LENGTH_SHORT).show();
+    }
+    public interface OnFragmentInteractionListener {
+        void onSearch();
     }
 }

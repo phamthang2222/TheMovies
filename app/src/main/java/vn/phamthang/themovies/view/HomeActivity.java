@@ -14,10 +14,10 @@ import com.google.android.material.navigation.NavigationBarView;
 import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.databinding.ActivityHomeBinding;
 import vn.phamthang.themovies.fragments.HomeFragment;
-import vn.phamthang.themovies.fragments.SreachFragment;
+import vn.phamthang.themovies.fragments.SearchFragment;
 import vn.phamthang.themovies.fragments.WhisListFragment;
 
-public class HomeActivity extends AppCompatActivity   {
+public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener   {
     ActivityHomeBinding binding;
 
     @Override
@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity   {
                         replaceFragment(new HomeFragment());
                         break;
                     case R.id.search:
-                        replaceFragment(new SreachFragment());
+                        replaceFragment(new SearchFragment());
                         break;
                     case R.id.watchlist:
                         replaceFragment(new WhisListFragment());
@@ -47,7 +47,9 @@ public class HomeActivity extends AppCompatActivity   {
             }
         });
 
+
     }
+
 
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -57,4 +59,9 @@ public class HomeActivity extends AppCompatActivity   {
     }
 
 
+    @Override
+    public void onSearch() {
+        replaceFragment(new SearchFragment());
+        binding.bottomNavigation.setSelectedItemId(R.id.search);
+    }
 }

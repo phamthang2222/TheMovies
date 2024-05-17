@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import vn.phamthang.themovies.R;
+import vn.phamthang.themovies.databinding.FragmentSreachBinding;
 
-public class SreachFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
+    FragmentSreachBinding binding;
 
-    public SreachFragment() {
+    public SearchFragment() {
     }
 
     @Override
@@ -25,6 +27,7 @@ public class SreachFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sreach, container, false);
+        binding = FragmentSreachBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 }

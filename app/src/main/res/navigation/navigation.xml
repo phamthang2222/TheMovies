@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/sreachFragment"
-        android:name="vn.phamthang.themovies.fragments.SreachFragment"
+        android:name="vn.phamthang.themovies.fragments.SearchFragment"
         android:label="fragment_sreach"
         tools:layout="@layout/fragment_sreach" />
     <activity

@@ -56,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
                 .transform(new CenterCrop(), new RoundedCorners(10)) // crop and border
                 .into(binding.imgMovieDetail);
         Glide.with(binding.imgBgMovie)
-                .load(Constant.convertLinkImage(movie.getBelongsToCollection().getBackdropPath()))
+                .load(Constant.convertLinkImage2(movie.getBackdropPath()))
                 .transform(new CenterCrop(), new RoundedCorners(10)) // crop and border
                 .into(binding.imgBgMovie);
         binding.tvStar.setText(movie.getVoteAverage()+"");

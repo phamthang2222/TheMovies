@@ -17,14 +17,19 @@ import java.util.ArrayList;
 
 import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.objects.Result;
+import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.ultis.Constant;
 
 public class ListCategoryMovieAdapter extends RecyclerView.Adapter<ListCategoryMovieAdapter.NowPlayingMovieViewHolder> {
+    private MoviePresenter mMoviePresenter;
 
     private ArrayList<Result> mListMovie;
     private Context context;
+    private OnItemClickListener onItemClickListener;
 
-    public ListCategoryMovieAdapter(ArrayList<Result> mListMovie) {
+    public ListCategoryMovieAdapter(ArrayList<Result> mListMovie, OnItemClickListener listener)
+    {
+        this.onItemClickListener = listener;
         this.mListMovie = mListMovie;
     }
     public void updateData(ArrayList<Result> ListMovie){
@@ -44,10 +49,14 @@ public class ListCategoryMovieAdapter extends RecyclerView.Adapter<ListCategoryM
     @Override
     public void onBindViewHolder(@NonNull ListCategoryMovieAdapter.NowPlayingMovieViewHolder holder, int position) {
         Result movie = mListMovie.get(position);
+        int id = movie.getId();
         Glide.with(context)
                 .load(Constant.convertLinkImage(movie.getPosterPath()))
                 .transform(new CenterCrop(), new RoundedCorners(5))
                 .into(holder.imgNowPlayingMovie);
+        holder.imgNowPlayingMovie.setOnClickListener(v -> {
+            onItemClickListener.onItemClick(id);
+        });
     }
 
     @Override
@@ -61,5 +70,8 @@ public class ListCategoryMovieAdapter extends RecyclerView.Adapter<ListCategoryM
             super(itemView);
             imgNowPlayingMovie = itemView.findViewById(R.id.imgNowPlayingMovie);
         }
+    }
+    public interface OnItemClickListener {
+        void onItemClick(int idMovie);
     }
 }
