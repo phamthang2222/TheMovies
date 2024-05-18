@@ -1,5 +1,6 @@
 package vn.phamthang.themovies.fragments.SubFragmentHome;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,27 @@ public class PopularFragment extends Fragment implements IMovieView, vn.phamthan
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("PopularFragment","onCreate");
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.e("PopularFragment","onAttach");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("PopularFragment","onResume");
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("PopularFragment","onDestroy");
 
     }
 

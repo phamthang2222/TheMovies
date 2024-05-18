@@ -52,22 +52,10 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -101,9 +89,7 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
         binding.imgFind.setOnClickListener(v -> {
             edtSearch = binding.edtFind.getText().toString().trim();
             if (!edtSearch.isEmpty()) {
-
                 EventBus.getDefault().post(new MessageEvent(edtSearch));
-
                 if (getActivity() instanceof OnFragmentInteractionListener) {
                     ((OnFragmentInteractionListener) getActivity()).onSearch();
                 }
@@ -151,6 +137,8 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     public void getDetailMovieError(String message) {
         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
     }
+
+
 
     public interface OnFragmentInteractionListener {
         void onSearch();

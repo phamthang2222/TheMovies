@@ -1,12 +1,18 @@
 package vn.phamthang.themovies.api.services;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import vn.phamthang.themovies.objects.BestMovieRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
+import vn.phamthang.themovies.objects.request.FavoriteMovieRequest;
 import vn.phamthang.themovies.ultis.Constant;
 
 public interface IDummyServices {
@@ -24,4 +30,17 @@ public interface IDummyServices {
     Call<Movie> getDetailMovie(@Path("id") int idMovie);
     @GET(Constant.GET_SEARCH_MOVIE+Constant.API_KEY)
     Call<BestMovieRespone> getSearchMovie(@Query("query") String query);
-}
+
+    @GET(Constant.GET_FAV_MOVIE+Constant.API_KEY)
+    @Headers({
+            "Authorization: Bearer "+Constant.AUTHORIZATION,
+//            "Content-Type: application/json"
+    })
+    Call<BestMovieRespone> getFavMovie();
+
+    @POST(Constant.POST_FAV_MOVIE + Constant.API_KEY)
+    @Headers({
+            "Authorization: Bearer "+Constant.AUTHORIZATION,
+            "Content-Type: application/json"
+    })
+    Call<ResponseBody> addToFavorite(@Body FavoriteMovieRequest favoriteMovieRequest);}

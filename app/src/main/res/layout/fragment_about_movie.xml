@@ -14,5 +14,5 @@
         android:fontFamily="@font/montserrat_regular"
         android:textColor="@color/grey"
         android:textSize="@dimen/_12sdp"
-        android:text="Hello" />
+        android:text="null" />
 </FrameLayout>

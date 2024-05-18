@@ -10,9 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.databinding.FragmentAboutMovieBinding;
 import vn.phamthang.themovies.objects.Movie;
+import vn.phamthang.themovies.ultis.MessageEvent;
 
 
 public class AboutMovieFragment extends Fragment {
@@ -21,23 +25,23 @@ public class AboutMovieFragment extends Fragment {
     private Movie movie;
 
     public AboutMovieFragment() {
-        // Required empty public constructor
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
-    public static AboutMovieFragment newInstance(Movie movie) {
-        AboutMovieFragment fragment = new AboutMovieFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("movie", movie);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            movie = (Movie) getArguments().getSerializable("movie");
-            initData();
-        }
+
     }
 
     @Override
@@ -45,14 +49,16 @@ public class AboutMovieFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
-
+    @Subscribe
+    public void onNoteCreated(MessageEvent event) {
+        movie = event.getMovie();
+        binding.tvAboutMovie.setText(movie.getOverview()+"");
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAboutMovieBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
-    private void initData() {
-        binding.tvAboutMovie.setText(movie.getOverview()+"");
-    }
+
 }

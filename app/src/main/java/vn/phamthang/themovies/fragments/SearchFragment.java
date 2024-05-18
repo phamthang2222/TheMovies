@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,19 +52,31 @@ public class SearchFragment extends Fragment implements IMovieView,SearchMovieAd
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        Log.e("SearchFragment","OnCreate");
+
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        Log.e("SearchFragment","OnDestroy");
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("SearchFragment","onResume");
+
+
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.e("SearchFragment","OnDetach");
+
     }
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -124,14 +137,12 @@ public class SearchFragment extends Fragment implements IMovieView,SearchMovieAd
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe()
     public void onEvent(MessageEvent event) {
         stringSearch = event.getTextMessage();
         binding.edtFind.setText(stringSearch);
         getMovie(stringSearch);
     }
-
-
 
     @Override
     public void getDetailMovieSuccess(Movie response) {

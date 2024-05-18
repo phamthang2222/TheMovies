@@ -7,15 +7,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationBarView;
 
 import vn.phamthang.themovies.R;
+import vn.phamthang.themovies.adapters.ViewPagerAdapter.ViewPagerMainActivityAdapter;
 import vn.phamthang.themovies.databinding.ActivityHomeBinding;
 import vn.phamthang.themovies.fragments.HomeFragment;
 import vn.phamthang.themovies.fragments.SearchFragment;
 import vn.phamthang.themovies.fragments.WhisListFragment;
+
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, SearchFragment.onBack   {
     ActivityHomeBinding binding;

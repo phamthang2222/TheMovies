@@ -134,7 +134,6 @@ public class MovieInteractor {
             }
         });
     }
-
     public void getSearchMovie(String query){
         iDummyServices.getSearchMovie(query).enqueue(new Callback<BestMovieRespone>() {
             @Override
@@ -158,5 +157,27 @@ public class MovieInteractor {
             }
         });
     }
+    public void getFavMovie(){
+        iDummyServices.getFavMovie().enqueue(new Callback<BestMovieRespone>() {
+            @Override
+            public void onResponse(Call<BestMovieRespone> call, Response<BestMovieRespone> response) {
+                if(response.isSuccessful()){
+                    if(iMoviePresenter != null){
+                        iMoviePresenter.getMovieSuccess(response.body());
+                    }
+                }else {
+                    if(iMoviePresenter != null){
+                        iMoviePresenter.getMovieError(response.message());
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<BestMovieRespone> call, Throwable throwable) {
+                if(iMoviePresenter != null){
+                    iMoviePresenter.getMovieError(throwable.getMessage());
+                }
+            }
+        });
+    }
 }
