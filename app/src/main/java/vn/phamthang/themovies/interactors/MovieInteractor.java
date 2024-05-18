@@ -9,6 +9,7 @@ import vn.phamthang.themovies.api.ApiUtils;
 import vn.phamthang.themovies.api.services.IDummyServices;
 import vn.phamthang.themovies.objects.BestMovieRespone;
 import vn.phamthang.themovies.Interface.MostMovie.IMoviePresenter;
+import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.ultis.Constant;
 
@@ -119,6 +120,30 @@ public class MovieInteractor {
                         iMoviePresenter.getMovieSuccess(response.body());
                     }
                 }else {
+                    if(iMoviePresenter != null){
+                        iMoviePresenter.getMovieError(response.message());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BestMovieRespone> call, Throwable throwable) {
+                if(iMoviePresenter != null){
+                    iMoviePresenter.getMovieError(throwable.getMessage());
+                }
+            }
+        });
+    }
+
+    public void getSearchMovie(String query){
+        iDummyServices.getSearchMovie(query).enqueue(new Callback<BestMovieRespone>() {
+            @Override
+            public void onResponse(Call<BestMovieRespone> call, Response<BestMovieRespone> response) {
+                if(response.isSuccessful()){
+                    if(iMoviePresenter != null){
+                        iMoviePresenter.getMovieSuccess(response.body());
+                    }
+                }else{
                     if(iMoviePresenter != null){
                         iMoviePresenter.getMovieError(response.message());
                     }

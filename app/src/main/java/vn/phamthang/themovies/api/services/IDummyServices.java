@@ -22,4 +22,6 @@ public interface IDummyServices {
     Call<BestMovieRespone> getDiscoverMovie();
     @GET(Constant.GET_DETAIL_MOVIE+"{id}"+Constant.API_KEY)
     Call<Movie> getDetailMovie(@Path("id") int idMovie);
+    @GET(Constant.GET_SEARCH_MOVIE+Constant.API_KEY)
+    Call<BestMovieRespone> getSearchMovie(@Query("query") String query);
 }

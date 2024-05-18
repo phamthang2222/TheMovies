@@ -17,7 +17,7 @@ import vn.phamthang.themovies.fragments.HomeFragment;
 import vn.phamthang.themovies.fragments.SearchFragment;
 import vn.phamthang.themovies.fragments.WhisListFragment;
 
-public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener   {
+public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, SearchFragment.onBack   {
     ActivityHomeBinding binding;
 
     @Override
@@ -63,5 +63,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     public void onSearch() {
         replaceFragment(new SearchFragment());
         binding.bottomNavigation.setSelectedItemId(R.id.search);
+    }
+
+    @Override
+    public void onBack() {
+        replaceFragment(new HomeFragment());
+        binding.bottomNavigation.setSelectedItemId(R.id.home);
     }
 }

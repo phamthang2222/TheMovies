@@ -35,7 +35,9 @@ public class MoviePresenter implements IMoviePresenter {
     public void getDiscoverMovie() {
         mMovieInteractor.getDiscoverMovie();
     }
-
+    public void getSearchMovie(String input){
+        mMovieInteractor.getSearchMovie(input);
+    }
 
     @Override
     public void getMovieSuccess(BestMovieRespone response) {

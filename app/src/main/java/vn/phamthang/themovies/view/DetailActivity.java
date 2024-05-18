@@ -61,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
                 .into(binding.imgBgMovie);
         binding.tvStar.setText(movie.getVoteAverage()+"");
         binding.tvStar.setText(movie.getVoteAverage()+"");
-        binding.tvTitle.setText(movie.getTitle());
+        binding.tvTitleMovie.setText(movie.getTitle());
         binding.tvCalendar.setText(movie.getReleaseDate());
         binding.tvMinus.setText(movie.getRuntime()+" Minutes");
         binding.tvGenre.setText(movie.getGenres().get(0).getName()+"");// 1list lấy tạm phần tử 0

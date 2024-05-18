@@ -41,7 +41,7 @@
             android:background="@drawable/edt_background"
             android:hint="Search"
             android:inputType="text"
-            android:paddingStart="@dimen/_10sdp"
+            android:paddingStart="@dimen/_15sdp"
             android:textColor="@color/white"
             android:textColorHint="@color/grey" />
 

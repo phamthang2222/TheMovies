@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
+import vn.phamthang.themovies.ultis.MessageEvent;
 import vn.phamthang.themovies.view.DetailActivity;
 
 public class HomeFragment extends Fragment implements IMovieView, IMovieDetailView, SpecialMovieAdapter.OnItemClickListener {
@@ -48,6 +51,16 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     public HomeFragment() {
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,17 +96,21 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     private void getMostMovie() {
         mMoviePresenter.getDiscoverMovie();
     }
+
     private void initView() {
         binding.imgFind.setOnClickListener(v -> {
             edtSearch = binding.edtFind.getText().toString().trim();
-            if(!edtSearch.isEmpty()){
-                EventBus.getDefault().post(new vn.phamthang.themovies.ultis.EventBus(edtSearch));
+            if (!edtSearch.isEmpty()) {
+
+                EventBus.getDefault().post(new MessageEvent(edtSearch));
+
                 if (getActivity() instanceof OnFragmentInteractionListener) {
                     ((OnFragmentInteractionListener) getActivity()).onSearch();
                 }
             }
         });
     }
+
     private void initData() {
         mMoviePresenter = new MoviePresenter(this);
         mDetailMoviePresenter = new DetailMoviePresenter(this);
@@ -126,14 +143,15 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     @Override
     public void getDetailMovieSuccess(Movie response) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra("movie",(Serializable)response);
+        intent.putExtra("movie", (Serializable) response);
         startActivity(intent);
     }
 
     @Override
     public void getDetailMovieError(String message) {
-        Toast.makeText(getContext(), ""+message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
     }
+
     public interface OnFragmentInteractionListener {
         void onSearch();
     }
