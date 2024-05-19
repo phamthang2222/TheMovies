@@ -12,35 +12,48 @@ import retrofit2.http.Query;
 import vn.phamthang.themovies.objects.BestMovieRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
+import vn.phamthang.themovies.objects.Video.ResultVideoMovie;
 import vn.phamthang.themovies.objects.request.FavoriteMovieRequest;
 import vn.phamthang.themovies.ultis.Constant;
 
 public interface IDummyServices {
-    @GET(Constant.GET_TOP_RATE_MOVIE +Constant.API_KEY)
+    //GET
+    @GET(Constant.GET_TOP_RATE_MOVIE + Constant.API_KEY)
     Call<BestMovieRespone> getTopRateMovie();
-    @GET(Constant.GET_NOW_PLAYING_MOVIE+Constant.API_KEY)
+
+    @GET(Constant.GET_NOW_PLAYING_MOVIE + Constant.API_KEY)
     Call<BestMovieRespone> getNowPlayingMovie();
-    @GET(Constant.GET_UP_COMING_MOVIE+Constant.API_KEY)
+
+    @GET(Constant.GET_UP_COMING_MOVIE + Constant.API_KEY)
     Call<BestMovieRespone> getUpComingMovie();
-    @GET(Constant.GET_POPULAR_MOVIE+Constant.API_KEY)
+
+    @GET(Constant.GET_POPULAR_MOVIE + Constant.API_KEY)
     Call<BestMovieRespone> getPopularMovie();
-    @GET(Constant.GET_DISCOVER_MOVIE+Constant.API_KEY)
+
+    @GET(Constant.GET_DISCOVER_MOVIE + Constant.API_KEY)
     Call<BestMovieRespone> getDiscoverMovie();
-    @GET(Constant.GET_DETAIL_MOVIE+"{id}"+Constant.API_KEY)
+
+    @GET(Constant.GET_DETAIL_MOVIE + "{id}" + Constant.API_KEY)
     Call<Movie> getDetailMovie(@Path("id") int idMovie);
-    @GET(Constant.GET_SEARCH_MOVIE+Constant.API_KEY)
+
+    @GET(Constant.GET_SEARCH_MOVIE + Constant.API_KEY)
     Call<BestMovieRespone> getSearchMovie(@Query("query") String query);
 
-    @GET(Constant.GET_FAV_MOVIE+Constant.API_KEY)
+    @GET(Constant.GET_FAV_MOVIE + Constant.API_KEY)
     @Headers({
-            "Authorization: Bearer "+Constant.AUTHORIZATION,
-//            "Content-Type: application/json"
+            "Authorization: Bearer " + Constant.AUTHORIZATION,
     })
     Call<BestMovieRespone> getFavMovie();
 
+    @GET(Constant.GET_VIDEO_MOVIE + "{idMovie}" + "/videos" + Constant.API_KEY)
+    Call<ResultVideoMovie> getVideoMovie(@Path("idMovie") int idMovie);
+
+    //----------------------------------------------------------------------
+    //POST
     @POST(Constant.POST_FAV_MOVIE + Constant.API_KEY)
     @Headers({
-            "Authorization: Bearer "+Constant.AUTHORIZATION,
+            "Authorization: Bearer " + Constant.AUTHORIZATION,
             "Content-Type: application/json"
     })
-    Call<ResponseBody> addToFavorite(@Body FavoriteMovieRequest favoriteMovieRequest);}
+    Call<ResponseBody> addToFavorite(@Body FavoriteMovieRequest favoriteMovieRequest);
+}
