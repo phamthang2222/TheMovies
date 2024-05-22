@@ -23,19 +23,7 @@ public class ViewPagerMainActivityAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new NowPlayingFragment();
-            case 1:
-                return new UpComingFragment();
-            case 2:
-                return new TopRateFragment();
-            case 3:
-                return new PopularFragment();
-            default:
-                return new NowPlayingFragment();
-        }
-
+        return fragmentArrayList.get(position);
     }
 
     @Override
@@ -46,6 +34,10 @@ public class ViewPagerMainActivityAdapter extends FragmentStatePagerAdapter {
     public void addFragment(Fragment fragment, String title){
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);
+    }
+    public void addFragment(Fragment fragment){
+        fragmentArrayList.add(fragment);
+
     }
     @Nullable
     @Override

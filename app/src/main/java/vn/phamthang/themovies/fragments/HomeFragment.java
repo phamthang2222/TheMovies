@@ -131,7 +131,8 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
         binding.imgFind.setOnClickListener(v -> {
             edtSearch = binding.edtFind.getText().toString().trim();
             if (!edtSearch.isEmpty()) {
-                EventBus.getDefault().postSticky(new MessageEvent(edtSearch));
+//                EventBus.getDefault().postSticky(new MessageEvent(edtSearch));
+                EventBus.getDefault().post(new MessageEvent(edtSearch));
                 if (getActivity() instanceof OnFragmentInteractionListener) {
                     ((OnFragmentInteractionListener) getActivity()).onSearch();
                 }

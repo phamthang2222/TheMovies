@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:srcCompat="@drawable/svg_user" />
+        app:srcCompat="@drawable/ic_user" />
 
     <TextView
         android:id="@+id/tvRating"

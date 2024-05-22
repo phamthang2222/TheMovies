@@ -56,6 +56,13 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
@@ -66,7 +73,6 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
         Log.e("SearchFragment", "onResume");
 
 

@@ -52,7 +52,7 @@ public class ListReviewAdapter extends RecyclerView.Adapter<ListReviewAdapter.Li
                     .transform(new CenterCrop(), new RoundedCorners(50)) // crop and border
                     .into(holder.imgUserReview);
         } else {
-            holder.imgUserReview.setImageResource(R.drawable.svg_user);
+            holder.imgUserReview.setImageResource(R.drawable.ic_user);
         }
         if(result.getAuthorDetails().getRating() != null){
             holder.tvRating.setText(result.getAuthorDetails().getRating()+"");
