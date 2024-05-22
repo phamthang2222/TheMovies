@@ -6,6 +6,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import vn.phamthang.themovies.MyApplication;
+import vn.phamthang.themovies.ultis.AuthInterceptor;
 import vn.phamthang.themovies.ultis.Constant;
 
 public class RetrofitClient {
@@ -15,6 +16,7 @@ public class RetrofitClient {
         if(instance == null){
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new ChuckerInterceptor(MyApplication.getInstance().getApplicationContext()))
+                    .addInterceptor(new AuthInterceptor(Constant.TOKEN))
                     .build();
 
             instance = new Retrofit.Builder()

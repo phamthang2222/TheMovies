@@ -1,5 +1,6 @@
 package vn.phamthang.themovies.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,46 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
         super.onCreate(savedInstanceState);
 
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d("HomeFragment","onAttach");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("HomeFragment", "onResume: ");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("HomeFragment", "onStart: ");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("HomeFragment", "onPause: ");
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("HomeFragment", "onDetach: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("HomeFragment", "onDestroy: ");
+
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -89,7 +131,7 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
         binding.imgFind.setOnClickListener(v -> {
             edtSearch = binding.edtFind.getText().toString().trim();
             if (!edtSearch.isEmpty()) {
-                EventBus.getDefault().post(new MessageEvent(edtSearch));
+                EventBus.getDefault().postSticky(new MessageEvent(edtSearch));
                 if (getActivity() instanceof OnFragmentInteractionListener) {
                     ((OnFragmentInteractionListener) getActivity()).onSearch();
                 }

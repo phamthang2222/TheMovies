@@ -116,7 +116,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
         getVideoMovie(idMovie);
 
-        EventBus.getDefault().post(new MessageEvent(movie));
     }
 
     private void getVideoMovie(int idMovie) {
@@ -133,9 +132,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
             postFavMoviePresenter = new PostFavMoviePresenter(this);
 
             FavoriteMovieRequest request = new FavoriteMovieRequest(mediaID, "movie", true);
-
             postFavMoviePresenter.postFavMovie(request);
-//            binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
             listFav.add(mediaID);
 
         });
@@ -145,6 +142,10 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         viewPagerDetailMovieAdapter.addFragment(new ReviewFragment(), "Review");
         viewPagerDetailMovieAdapter.addFragment(new CastFragment(), "Case");
         binding.viewPagerDetailMovie.setAdapter(viewPagerDetailMovieAdapter);
+        binding.viewPagerDetailMovie.setOffscreenPageLimit(3);
+
+        EventBus.getDefault().postSticky(new MessageEvent(movie));
+
     }
 
 

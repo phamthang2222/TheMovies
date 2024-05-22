@@ -55,6 +55,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
 
+
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

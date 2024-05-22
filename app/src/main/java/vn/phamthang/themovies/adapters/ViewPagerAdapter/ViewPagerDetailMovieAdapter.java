@@ -19,6 +19,7 @@ import vn.phamthang.themovies.fragments.SubFragmentHome.UpComingFragment;
 public class ViewPagerDetailMovieAdapter extends FragmentStatePagerAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> fragmentTitle = new ArrayList<>();
+
     public ViewPagerDetailMovieAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
@@ -26,26 +27,19 @@ public class ViewPagerDetailMovieAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new AboutMovieFragment();
-            case 1:
-                return new ReviewFragment();
-            case 2:
-                return new CastFragment();
-            default:
-                return new AboutMovieFragment();
-        }
+        return fragmentArrayList.get(position);
     }
 
     @Override
     public int getCount() {
         return fragmentArrayList.size();
     }
-    public void addFragment(Fragment fragment, String title){
+
+    public void addFragment(Fragment fragment, String title) {
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);
     }
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
