@@ -9,6 +9,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import vn.phamthang.themovies.objects.BestMovieRespone;
+import vn.phamthang.themovies.objects.Cast.CastingRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Review.ReviewResponse;
 import vn.phamthang.themovies.objects.Video.ResultVideoMovie;
@@ -39,21 +40,19 @@ public interface IDummyServices {
     Call<BestMovieRespone> getSearchMovie(@Query("query") String query);
 
     @GET(Constant.GET_FAV_MOVIE + Constant.API_KEY)
-//    @Headers({
-//            "Authorization: Bearer " + Constant.AUTHORIZATION,
-//    })
     Call<BestMovieRespone> getFavMovie();
 
     @GET(Constant.GET_VIDEO_MOVIE + "{idMovie}" + "/videos" + Constant.API_KEY)
     Call<ResultVideoMovie> getVideoMovie(@Path("idMovie") int idMovie);
+
     @GET(Constant.GET_REVIEW_MOVIE + "{idMovie}" + "/reviews?language=en-US&page=1" + Constant.API_KEY)
     Call<ReviewResponse> getReviewMovie(@Path("idMovie") int idMovie);
+
+    @GET(Constant.GET_CAST_MOVIE+ "{idMovie}" + "/casts?language=en-US&page=1" + Constant.API_KEY)
+    Call<CastingRespone> getCastMovie(@Path("idMovie") int idMovie);
+
     //----------------------------------------------------------------------
     //POST
     @POST(Constant.POST_FAV_MOVIE + Constant.API_KEY)
-//    @Headers({
-//            "Authorization: Bearer " + Constant.AUTHORIZATION,
-//            "Content-Type: application/json"
-//    })
     Call<ResponseBody> addToFavorite(@Body FavoriteMovieRequest favoriteMovieRequest);
 }

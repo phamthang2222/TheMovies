@@ -178,7 +178,6 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
 
     @Override
     public void getDetailMovieError(String message) {
-        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
     }
 
 

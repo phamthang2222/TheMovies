@@ -31,24 +31,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         initView();
         setupBottomNavigation();
-//        replaceFragment(new HomeFragment());
-//        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                switch (menuItem.getItemId()){
-//                    case R.id.home:
-//                        replaceFragment(new HomeFragment());
-//                        break;
-//                    case R.id.search:
-//                        replaceFragment(new SearchFragment());
-//                        break;
-//                    case R.id.watchlist:
-//                        replaceFragment(new WhisListFragment());
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
     }
 
     private void setupBottomNavigation() {

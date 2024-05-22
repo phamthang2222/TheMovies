@@ -140,7 +140,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         ViewPagerDetailMovieAdapter viewPagerDetailMovieAdapter = new ViewPagerDetailMovieAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPagerDetailMovieAdapter.addFragment(new AboutMovieFragment(), "About");
         viewPagerDetailMovieAdapter.addFragment(new ReviewFragment(), "Review");
-        viewPagerDetailMovieAdapter.addFragment(new CastFragment(), "Case");
+        viewPagerDetailMovieAdapter.addFragment(new CastFragment(), "Cast");
         binding.viewPagerDetailMovie.setAdapter(viewPagerDetailMovieAdapter);
         binding.viewPagerDetailMovie.setOffscreenPageLimit(4);
 

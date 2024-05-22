@@ -74,7 +74,6 @@ public class ReviewFragment extends Fragment implements IReviewMovieView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        
         EventBus.getDefault().unregister(this);
 
     }

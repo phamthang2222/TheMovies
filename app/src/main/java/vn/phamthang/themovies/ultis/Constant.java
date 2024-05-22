@@ -23,6 +23,7 @@ public class Constant {
     public static final String GET_SEARCH_MOVIE = "/3/search/movie";
     public static final String GET_VIDEO_MOVIE = "/3/movie/";
     public static final String GET_REVIEW_MOVIE = "/3/movie/";
+    public static final String GET_CAST_MOVIE = "/3/movie/";
     public static final String GET_FAV_MOVIE = "/3/account/"+ACCOUNT_ID+"/favorite/movies?language=en-US&page=1&sort_by=created_at.asc";
 
     //POST

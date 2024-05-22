@@ -123,10 +123,10 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         listMovie = new ArrayList<>();
         mAdapter = new SearchMovieAdapter(listMovie, this);
 
+        binding.imgNoneSearch.setVisibility(View.VISIBLE);
         binding.rcvSearchMovie.setAdapter(mAdapter);
 //        binding.rcvSearchMovie.setLayoutManager(
 //                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
 
     }
 
@@ -137,7 +137,9 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
     @Override
     public void getMovieSuccess(BestMovieRespone response) {
         listMovie.clear();
+        binding.imgNoneSearch.setVisibility(View.INVISIBLE);// ẩn ảnh cho đẹp thôi :))) make color
         mAdapter.updateData((ArrayList<Result>) response.getResults());
+
     }
 
     @Override
