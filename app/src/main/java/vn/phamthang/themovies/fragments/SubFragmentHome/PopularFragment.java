@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -46,27 +48,23 @@ public class PopularFragment extends Fragment implements IMovieView, vn.phamthan
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("PopularFragment","onCreate");
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        Log.e("PopularFragment","onAttach");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("PopularFragment","onResume");
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("PopularFragment","onDestroy");
 
     }
 
@@ -116,6 +114,8 @@ public class PopularFragment extends Fragment implements IMovieView, vn.phamthan
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("movie",(Serializable)response);
         startActivity(intent);
+        Animatoo.INSTANCE.animateZoom(getActivity());
+
     }
 
     @Override

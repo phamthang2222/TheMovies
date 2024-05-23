@@ -4,7 +4,7 @@ import okhttp3.ResponseBody;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMoviePresenter;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMovieView;
 import vn.phamthang.themovies.interactors.PostFavoriteMovieInteractor;
-import vn.phamthang.themovies.objects.request.FavoriteMovieRequest;
+import vn.phamthang.themovies.objects.request.MovieRequest;
 
 public class PostFavMoviePresenter implements IPostFavMoviePresenter {
 
@@ -16,7 +16,7 @@ public class PostFavMoviePresenter implements IPostFavMoviePresenter {
          postFavoriteMovieInteractor = new PostFavoriteMovieInteractor(this);
     }
 
-    public void postFavMovie(FavoriteMovieRequest request) {
+    public void postFavMovie(MovieRequest request) {
         postFavoriteMovieInteractor.postFavMovie(request);
     }
 

@@ -1,14 +1,14 @@
 package vn.phamthang.themovies.objects.request;
 
-public class FavoriteMovieRequest {
+public class MovieRequest {
     private int media_id;
     private String media_type;
     private boolean favorite;
 
-    public FavoriteMovieRequest() {
+    public MovieRequest() {
     }
 
-    public FavoriteMovieRequest(int media_id, String media_type, boolean favorite) {
+    public MovieRequest(int media_id, String media_type, boolean favorite) {
         this.media_id = media_id;
         this.media_type = media_type;
         this.favorite = favorite;

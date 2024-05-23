@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -94,6 +96,8 @@ public class TopRateFragment extends Fragment implements IMovieView, vn.phamthan
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("movie",(Serializable)response);
         startActivity(intent);
+        Animatoo.INSTANCE.animateZoom(getActivity());
+
     }
 
     @Override

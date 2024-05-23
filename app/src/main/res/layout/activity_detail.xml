@@ -73,7 +73,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
+            <View
+                android:layout_width="@dimen/_365sdp"
+                android:layout_height="@dimen/_210sdp"
+                android:background="#80000000" />
             <ImageView
                 android:id="@+id/imgMovieDetail"
                 android:layout_width="@dimen/_95sdp"
@@ -290,18 +293,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/imgBgMovie"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvtrailer" />
-            <!--            <WebView-->
-            <!--                android:id="@+id/videoTrailer"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="@dimen/_200sdp"-->
-            <!--                android:layout_marginBottom="@dimen/_20sdp"-->
-            <!--                android:layout_marginTop="@dimen/_20sdp"-->
-            <!--                android:layout_marginLeft="@dimen/_10sdp"-->
-            <!--                android:layout_marginRight="@dimen/_10sdp"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/tvtrailer" />-->
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

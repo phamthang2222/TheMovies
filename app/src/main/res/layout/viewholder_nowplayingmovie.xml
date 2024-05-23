@@ -5,13 +5,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_8sdp"
-    android:layout_marginStart="@dimen/_4sdp"
-    android:layout_marginEnd="@dimen/_4sdp"
+    android:layout_marginStart="@dimen/_2sdp"
+    android:layout_marginEnd="@dimen/_2sdp"
     >
     <ImageView
         android:id="@+id/imgNowPlayingMovie"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_145sdp"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_135sdp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

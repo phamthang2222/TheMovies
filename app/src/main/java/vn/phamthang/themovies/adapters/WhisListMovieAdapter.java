@@ -26,6 +26,7 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
     private Context mContext;
     private OnItemClickListener onItemClickListener;
 
+
     public WhisListMovieAdapter(ArrayList<Result> mListSearchMovie, OnItemClickListener onItemClickListener) {
         this.mListMovie = mListSearchMovie;
         this.onItemClickListener = onItemClickListener;
@@ -39,7 +40,7 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
     @Override
     public WhisListMovieAdapter.WhisListMovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_movie_in_list_search,parent,false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_fav_movie,parent,false);
         return new WhisListMovieViewHolder(inflate);
     }
 
@@ -59,7 +60,8 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
                 .load(Constant.convertLinkImage(movie.getPosterPath()))
                 .transform(new CenterCrop(), new RoundedCorners(30)) // crop and border
                 .into(holder.imgMovie);
-        holder.itemSearchMovie.setOnClickListener(v -> onItemClickListener.onItemClick(id));
+        holder.itemFavMovie.setOnClickListener(v -> onItemClickListener.onItemClick(id, R.id.itemFavMovie));
+        holder.imgRemoveMovieFromList.setOnClickListener(v -> onItemClickListener.onItemClick(id,R.id.imgRemoveMovieFromList));
     }
 
     @Override
@@ -69,8 +71,8 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
 
     public class WhisListMovieViewHolder extends RecyclerView.ViewHolder{
         TextView tvTitle, tvCalendar, tvTime,tvRating,tvGenre;
-        ImageView imgMovie;
-        ConstraintLayout itemSearchMovie;
+        ImageView imgMovie,imgRemoveMovieFromList;
+        ConstraintLayout itemFavMovie;
         public WhisListMovieViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitleMovie);
@@ -79,10 +81,12 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
             tvRating = itemView.findViewById(R.id.tvRatingMovie);
             tvGenre = itemView.findViewById(R.id.tvGenerMovie);
             imgMovie = itemView.findViewById(R.id.imgMovieInSearch);
-            itemSearchMovie = itemView.findViewById(R.id.itemSearchMovie);
+            itemFavMovie = itemView.findViewById(R.id.itemFavMovie);
+            imgRemoveMovieFromList = itemView.findViewById(R.id.imgRemoveMovieFromList);
         }
     }
     public interface OnItemClickListener {
-        void onItemClick(int idMovie);
+        void onItemClick(int idMovie, int layout);
     }
+
 }

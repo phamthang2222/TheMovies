@@ -58,6 +58,8 @@ dependencies {
     implementation("org.greenrobot:eventbus:3.3.1")
     debugImplementation( "com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation ("com.github.chuckerteam.chucker:library-no-op:4.0.0")
+    implementation ("com.github.AtifSayings:Animatoo:1.0.1")
+
 
 
 }

@@ -4,11 +4,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.phamthang.themovies.Interface.DetailMovie.IMovieDetailPresenter;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMoviePresenter;
 import vn.phamthang.themovies.api.ApiUtils;
 import vn.phamthang.themovies.api.services.IDummyServices;
-import vn.phamthang.themovies.objects.request.FavoriteMovieRequest;
+import vn.phamthang.themovies.objects.request.MovieRequest;
 
 public class PostFavoriteMovieInteractor {
     private IPostFavMoviePresenter iPostFavMoviePresenter;
@@ -19,7 +18,7 @@ public class PostFavoriteMovieInteractor {
        iDummyServices = ApiUtils.getDummyServices();
     }
 
-    public void postFavMovie(FavoriteMovieRequest request) {
+    public void postFavMovie(MovieRequest request) {
         iDummyServices.addToFavorite(request).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -1,5 +1,7 @@
 package vn.phamthang.themovies.fragments;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +16,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,8 +42,10 @@ import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
+import vn.phamthang.themovies.ultis.KeyBoardUtils;
 import vn.phamthang.themovies.ultis.MessageEvent;
 import vn.phamthang.themovies.view.DetailActivity;
+import vn.phamthang.themovies.view.FlashArtActivity;
 
 public class HomeFragment extends Fragment implements IMovieView, IMovieDetailView, SpecialMovieAdapter.OnItemClickListener {
 
@@ -121,6 +128,7 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
         return binding.getRoot();
+
     }
 
     private void getMostMovie() {
@@ -131,11 +139,16 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
         binding.imgFind.setOnClickListener(v -> {
             edtSearch = binding.edtFind.getText().toString().trim();
             if (!edtSearch.isEmpty()) {
+                KeyBoardUtils keyBoardUtils = new KeyBoardUtils(getContext());
 //                EventBus.getDefault().postSticky(new MessageEvent(edtSearch));
+
                 EventBus.getDefault().post(new MessageEvent(edtSearch));
+
                 if (getActivity() instanceof OnFragmentInteractionListener) {
                     ((OnFragmentInteractionListener) getActivity()).onSearch();
                 }
+
+                keyBoardUtils.hideKeyboard(v);
             }
         });
     }
@@ -174,15 +187,16 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("movie", (Serializable) response);
         startActivity(intent);
+        Animatoo.INSTANCE.animateZoom(getActivity());
+
     }
 
     @Override
     public void getDetailMovieError(String message) {
     }
 
-
-
     public interface OnFragmentInteractionListener {
         void onSearch();
     }
+
 }

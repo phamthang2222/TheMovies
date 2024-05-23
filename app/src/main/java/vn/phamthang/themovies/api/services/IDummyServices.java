@@ -4,7 +4,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -13,7 +12,7 @@ import vn.phamthang.themovies.objects.Cast.CastingRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Review.ReviewResponse;
 import vn.phamthang.themovies.objects.Video.ResultVideoMovie;
-import vn.phamthang.themovies.objects.request.FavoriteMovieRequest;
+import vn.phamthang.themovies.objects.request.MovieRequest;
 import vn.phamthang.themovies.ultis.Constant;
 
 public interface IDummyServices {
@@ -54,5 +53,5 @@ public interface IDummyServices {
     //----------------------------------------------------------------------
     //POST
     @POST(Constant.POST_FAV_MOVIE + Constant.API_KEY)
-    Call<ResponseBody> addToFavorite(@Body FavoriteMovieRequest favoriteMovieRequest);
+    Call<ResponseBody> addToFavorite(@Body MovieRequest movieRequest);
 }

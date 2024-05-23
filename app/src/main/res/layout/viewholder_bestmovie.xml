@@ -2,37 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginEnd="@dimen/_5sdp"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/_5sdp">
+
 
     <ImageView
         android:id="@+id/imgMovie"
         android:layout_width="@dimen/_145sdp"
         android:layout_height="@dimen/_210sdp"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="@dimen/_44sdp"
         android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_44sdp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:background="@drawable/loading"
+         />
+
 
     <TextView
         android:id="@+id/tvSTT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_semibold"
-        android:text="1"
         android:shadowColor="@color/blue"
         android:shadowDx="1.8"
         android:shadowDy="1.5"
         android:shadowRadius="2"
+        android:text="1"
         android:textAllCaps="true"
         android:textColor="@color/grey"
         android:textSize="@dimen/_96sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

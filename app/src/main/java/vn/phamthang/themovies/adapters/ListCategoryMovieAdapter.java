@@ -52,7 +52,7 @@ public class ListCategoryMovieAdapter extends RecyclerView.Adapter<ListCategoryM
         int id = movie.getId();
         Glide.with(context)
                 .load(Constant.convertLinkImage(movie.getPosterPath()))
-                .transform(new CenterCrop(), new RoundedCorners(15))
+                .transform(new CenterCrop(), new RoundedCorners(30))
                 .into(holder.imgNowPlayingMovie);
         holder.imgNowPlayingMovie.setOnClickListener(v -> {
             onItemClickListener.onItemClick(id);

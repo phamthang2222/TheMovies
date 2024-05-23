@@ -2,21 +2,13 @@ package vn.phamthang.themovies.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -32,20 +24,15 @@ import vn.phamthang.themovies.Interface.VideoMovie.IVideoMovieView;
 import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.adapters.VideoMovieAdapter;
 import vn.phamthang.themovies.adapters.ViewPagerAdapter.ViewPagerDetailMovieAdapter;
-import vn.phamthang.themovies.adapters.ViewPagerAdapter.ViewPagerMainActivityAdapter;
 import vn.phamthang.themovies.databinding.ActivityDetailBinding;
 import vn.phamthang.themovies.fragments.DetailMovie.AboutMovieFragment;
 import vn.phamthang.themovies.fragments.DetailMovie.CastFragment;
 import vn.phamthang.themovies.fragments.DetailMovie.ReviewFragment;
-import vn.phamthang.themovies.fragments.SubFragmentHome.NowPlayingFragment;
-import vn.phamthang.themovies.fragments.SubFragmentHome.PopularFragment;
-import vn.phamthang.themovies.fragments.SubFragmentHome.TopRateFragment;
-import vn.phamthang.themovies.fragments.SubFragmentHome.UpComingFragment;
 import vn.phamthang.themovies.objects.BestMovieRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.objects.Video.ResultVideoMovie;
-import vn.phamthang.themovies.objects.request.FavoriteMovieRequest;
+import vn.phamthang.themovies.objects.request.MovieRequest;
 import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.presenter.PostFavMoviePresenter;
 import vn.phamthang.themovies.presenter.VideoMoviePresenter;
@@ -116,6 +103,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
         getVideoMovie(idMovie);
 
+
     }
 
     private void getVideoMovie(int idMovie) {
@@ -125,13 +113,14 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     private void initView() {
         binding.btnBack.setOnClickListener(v -> {
             finish();
+            Animatoo.INSTANCE.animateFade(this);
         });
 
         binding.imgAddToFav.setOnClickListener(v -> {
             int mediaID = movie.getId();
             postFavMoviePresenter = new PostFavMoviePresenter(this);
 
-            FavoriteMovieRequest request = new FavoriteMovieRequest(mediaID, "movie", true);
+            MovieRequest request = new MovieRequest(mediaID, "movie", true);
             postFavMoviePresenter.postFavMovie(request);
             listFav.add(mediaID);
 
@@ -180,6 +169,13 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     @Override
     public void getVideoMovieError(String error) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.INSTANCE.animateFade(this);
 
     }
 }

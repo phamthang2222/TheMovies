@@ -28,7 +28,8 @@ public class ListCastAdapter extends RecyclerView.Adapter<ListCastAdapter.ListCa
     public ListCastAdapter(ArrayList<Cast> mListCast) {
         this.mListCast = mListCast;
     }
-    public void updateData(ArrayList<Cast> listCast){
+
+    public void updateData(ArrayList<Cast> listCast) {
         this.mListCast.clear();
         this.mListCast.addAll(listCast);
         notifyDataSetChanged();
@@ -38,20 +39,24 @@ public class ListCastAdapter extends RecyclerView.Adapter<ListCastAdapter.ListCa
     @Override
     public ListCastAdapter.ListCastViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_cast,parent,false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_cast, parent, false);
         return new ListCastViewHolder(inflate);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ListCastAdapter.ListCastViewHolder holder, int position) {
         Cast cast = mListCast.get(position);
-        Glide.with(mContext)
-                .load(Constant.convertLinkImage(cast.getProfilePath()))
-                .transform( new CenterCrop(), new RoundedCorners(500))
-                .into(holder.imgCasting);
+        if (cast.getProfilePath() != null) {
+            Glide.with(mContext)
+                    .load(Constant.convertLinkImage(cast.getProfilePath()))
+                    .transform(new CenterCrop(), new RoundedCorners(500))
+                    .into(holder.imgCasting);
+        } else {
+            holder.imgCasting.setImageResource(R.drawable.ic_casting);
+        }
 
         holder.tvCastingName.setText(cast.getName());
-        holder.tvCharacter.setText("Role: "+cast.getCharacter());
+        holder.tvCharacter.setText("Role: " + cast.getCharacter());
     }
 
     @Override
@@ -59,9 +64,10 @@ public class ListCastAdapter extends RecyclerView.Adapter<ListCastAdapter.ListCa
         return mListCast.size();
     }
 
-    public class ListCastViewHolder extends RecyclerView.ViewHolder{
+    public class ListCastViewHolder extends RecyclerView.ViewHolder {
         ImageView imgCasting;
         TextView tvCastingName, tvCharacter;
+
         public ListCastViewHolder(@NonNull View itemView) {
             super(itemView);
             imgCasting = itemView.findViewById(R.id.imgCasting);

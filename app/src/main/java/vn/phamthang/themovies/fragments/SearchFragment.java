@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,12 +33,13 @@ import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
+import vn.phamthang.themovies.ultis.KeyBoardUtils;
 import vn.phamthang.themovies.ultis.MessageEvent;
 import vn.phamthang.themovies.view.DetailActivity;
 
 public class SearchFragment extends Fragment implements IMovieView, SearchMovieAdapter.OnItemClickListener, vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView {
 
-
+    private static final String TAG = "SearchFragment";
     private MoviePresenter moviePresenter;
     private DetailMoviePresenter mDetailMoviePresenter;
     private ArrayList<Result> listMovie;
@@ -51,37 +54,36 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("SearchFragment", "OnCreate");
-
+        Log.d(TAG, "OnCreate");
     }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        Log.d(TAG, "onAttach: ");
         EventBus.getDefault().register(this);
-
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        Log.e("SearchFragment", "OnDestroy");
+        Log.d(TAG, "OnDestroy");
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("SearchFragment", "onResume");
-
-
+        Log.d(TAG, "onResume");
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("SearchFragment", "OnDetach");
+        Log.d(TAG, "OnDetach");
 
     }
 
@@ -96,10 +98,13 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         binding.imgSearchMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KeyBoardUtils keyBoardUtils = new KeyBoardUtils(getContext());
                 stringSearch = binding.edtFind.getText().toString();
+
                 if (!binding.edtFind.getText().toString().isEmpty()) {
                     getMovie(stringSearch);
                 }
+                keyBoardUtils.hideKeyboard(v);
             }
         });
 
@@ -122,11 +127,11 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         moviePresenter = new MoviePresenter(this);
         listMovie = new ArrayList<>();
         mAdapter = new SearchMovieAdapter(listMovie, this);
-
         binding.imgNoneSearch.setVisibility(View.VISIBLE);
+
         binding.rcvSearchMovie.setAdapter(mAdapter);
-//        binding.rcvSearchMovie.setLayoutManager(
-//                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        binding.rcvSearchMovie.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
     }
 
@@ -139,6 +144,9 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         listMovie.clear();
         binding.imgNoneSearch.setVisibility(View.INVISIBLE);// ẩn ảnh cho đẹp thôi :))) make color
         mAdapter.updateData((ArrayList<Result>) response.getResults());
+
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_animation);
+        binding.rcvSearchMovie.setLayoutAnimation(layoutAnimationController);
 
     }
 

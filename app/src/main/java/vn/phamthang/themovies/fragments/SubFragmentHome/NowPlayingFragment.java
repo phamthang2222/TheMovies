@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -43,28 +45,23 @@ ListCategoryMovieAdapter.OnItemClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("NowPlayingFragment","OnCreate");
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("NowPlayingFragment","onResume");
 
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        Log.e("NowPlayingFragment","onAttach");
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("NowPlayingFragment","onDestroy");
 
     }
 
@@ -116,6 +113,8 @@ ListCategoryMovieAdapter.OnItemClickListener
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("movie",(Serializable)response);
         startActivity(intent);
+        Animatoo.INSTANCE.animateZoom(getActivity());
+
     }
 
     @Override

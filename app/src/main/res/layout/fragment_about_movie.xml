@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+
         android:layout_marginEnd="@dimen/_20sdp"
         android:fontFamily="@font/montserrat_regular"
         android:textColor="@color/grey"
