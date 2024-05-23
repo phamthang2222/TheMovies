@@ -31,16 +31,18 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
         this.mListMovie = mListSearchMovie;
         this.onItemClickListener = onItemClickListener;
     }
+
     public void updateData(ArrayList<Result> ListMovie) {
         this.mListMovie.clear();
         this.mListMovie.addAll(ListMovie);
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public WhisListMovieAdapter.WhisListMovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_fav_movie,parent,false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_fav_movie, parent, false);
         return new WhisListMovieViewHolder(inflate);
     }
 
@@ -49,19 +51,19 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
         Result movie = mListMovie.get(position);
 
         int id = movie.getId();
-        int time = (int) (movie.getPopularity()/1);
+        int time = (int) (movie.getPopularity() / 1);
 
         holder.tvTitle.setText(movie.getTitle());
         holder.tvCalendar.setText(movie.getReleaseDate());
-        holder.tvTime.setText( time+" Minutes");
-        holder.tvRating.setText(movie.getVoteAverage()+"");
+        holder.tvTime.setText(time + " Minutes");
+        holder.tvRating.setText(movie.getVoteAverage() + "");
 //        holder.tvGenre.setText(movie.getTitle());
         Glide.with(mContext)
                 .load(Constant.convertLinkImage(movie.getPosterPath()))
                 .transform(new CenterCrop(), new RoundedCorners(30)) // crop and border
                 .into(holder.imgMovie);
         holder.itemFavMovie.setOnClickListener(v -> onItemClickListener.onItemClick(id, R.id.itemFavMovie));
-        holder.imgRemoveMovieFromList.setOnClickListener(v -> onItemClickListener.onItemClick(id,R.id.imgRemoveMovieFromList));
+        holder.imgRemoveMovieFromList.setOnClickListener(v -> onItemClickListener.onItemClick(id, R.id.imgRemoveMovieFromList));
     }
 
     @Override
@@ -69,10 +71,11 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
         return mListMovie.size();
     }
 
-    public class WhisListMovieViewHolder extends RecyclerView.ViewHolder{
-        TextView tvTitle, tvCalendar, tvTime,tvRating,tvGenre;
-        ImageView imgMovie,imgRemoveMovieFromList;
+    public class WhisListMovieViewHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle, tvCalendar, tvTime, tvRating, tvGenre;
+        ImageView imgMovie, imgRemoveMovieFromList;
         ConstraintLayout itemFavMovie;
+
         public WhisListMovieViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitleMovie);
@@ -85,6 +88,7 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
             imgRemoveMovieFromList = itemView.findViewById(R.id.imgRemoveMovieFromList);
         }
     }
+
     public interface OnItemClickListener {
         void onItemClick(int idMovie, int layout);
     }

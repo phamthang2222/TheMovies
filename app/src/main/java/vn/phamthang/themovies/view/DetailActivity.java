@@ -47,8 +47,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     private VideoMovieAdapter mAdapter;
     private ActivityDetailBinding binding;
     private Movie movie = new Movie();
-
-    public static ArrayList<Integer> listFav = new ArrayList<Integer>();
     private ArrayList<vn.phamthang.themovies.objects.Video.Result> listVideoTrailer;
 
     @Override
@@ -94,11 +92,10 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         binding.tvCalendar.setText(movie.getReleaseDate());
         binding.tvMinus.setText(movie.getRuntime() + " Minutes");
         binding.tvGenre.setText(movie.getGenres().get(0).getName() + "");// 1list lấy tạm phần tử 0
-        for (Integer value : listFav) {
-            if (idMovie == value) {
-                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
-            }
+        if (!isCheckFav(idMovie)) {
             binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
+        }else{
+            binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
         }
 
         getVideoMovie(idMovie);
@@ -121,8 +118,23 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
             postFavMoviePresenter = new PostFavMoviePresenter(this);
 
             MovieRequest request = new MovieRequest(mediaID, "movie", true);
-            postFavMoviePresenter.postFavMovie(request);
-            listFav.add(mediaID);
+
+            if (Constant.wishListMovieLocal == null) {
+                Constant.wishListMovieLocal.add(request);
+                postFavMoviePresenter.postFavMovie(request);
+                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
+            } else {
+                if (!isCheckFav(mediaID)) {
+                    Constant.wishListMovieLocal.add(request);
+                    postFavMoviePresenter.postFavMovie(request);
+                    binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
+                }else{
+                    MovieRequest requestRemove = new MovieRequest(mediaID, "movie", false);
+                    postFavMoviePresenter.postFavMovie(requestRemove);
+                    Constant.wishListMovieLocal.remove(requestRemove);
+                    binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
+                }
+            }
 
         });
         binding.tabLayoutDetailMovie.setupWithViewPager(binding.viewPagerDetailMovie);
@@ -140,7 +152,8 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     @Override
     public void postMovieSuccess(ResponseBody responseBody) {
-        Toast.makeText(this, "Đã thêm vào Wish List", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -151,9 +164,9 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     @Override
     public void getMovieSuccess(BestMovieRespone response) {
-        for (Result movie : response.getResults()) {
-            listFav.add(movie.getId());
-        }
+//        for (Result movie : response.getResults()) {
+//            listFav.add(movie.getId());
+//        }
     }
 
     @Override
@@ -170,6 +183,15 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     @Override
     public void getVideoMovieError(String error) {
 
+    }
+
+    private boolean isCheckFav(int idMovie) {
+        for (MovieRequest movieRequest : Constant.wishListMovieLocal) {
+            if (movieRequest.getMedia_id() == idMovie) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

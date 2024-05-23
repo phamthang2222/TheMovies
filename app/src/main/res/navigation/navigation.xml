@@ -30,7 +30,7 @@
         tools:layout="@layout/activity_home" />
     <fragment
         android:id="@+id/whisListFragment"
-        android:name="vn.phamthang.themovies.fragments.WhisListFragment"
+        android:name="vn.phamthang.themovies.fragments.WishListFragment"
         android:label="fragment_whis_list"
         tools:layout="@layout/fragment_whis_list" >
         <action

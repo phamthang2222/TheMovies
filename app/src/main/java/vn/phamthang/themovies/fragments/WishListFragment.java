@@ -24,10 +24,8 @@ import okhttp3.ResponseBody;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMovieView;
 import vn.phamthang.themovies.R;
-import vn.phamthang.themovies.adapters.SpecialMovieAdapter;
 import vn.phamthang.themovies.adapters.WhisListMovieAdapter;
 import vn.phamthang.themovies.databinding.FragmentWhisListBinding;
-import vn.phamthang.themovies.interactors.MovieInteractor;
 import vn.phamthang.themovies.objects.BestMovieRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
@@ -37,9 +35,9 @@ import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.presenter.PostFavMoviePresenter;
 import vn.phamthang.themovies.view.DetailActivity;
 
-public class WhisListFragment extends Fragment implements IMovieView, vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView,
+public class WishListFragment extends Fragment implements IMovieView, vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView,
         WhisListMovieAdapter.OnItemClickListener, IPostFavMovieView {
-    private static final String TAG = "WhisListFragment";
+    private static final String TAG = "WishListFragment";
     private MoviePresenter mMoviePresenter;
     private DetailMoviePresenter mDetailMoviePresenter;
     private PostFavMoviePresenter postFavMoviePresenter;
@@ -48,7 +46,7 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
 
     FragmentWhisListBinding binding;
 
-    public WhisListFragment() {
+    public WishListFragment() {
     }
 
     @Override
@@ -134,7 +132,6 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
         mAdapter.updateData((ArrayList<Result>) response.getResults());
         LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation);
         binding.rcvFavMovie.setLayoutAnimation(layoutAnimationController);
-
 
     }
 

@@ -3,10 +3,7 @@ package vn.phamthang.themovies.view;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import vn.phamthang.themovies.R;
@@ -14,7 +11,7 @@ import vn.phamthang.themovies.adapters.ViewPagerAdapter.ViewPagerMainActivityAda
 import vn.phamthang.themovies.databinding.ActivityHomeBinding;
 import vn.phamthang.themovies.fragments.HomeFragment;
 import vn.phamthang.themovies.fragments.SearchFragment;
-import vn.phamthang.themovies.fragments.WhisListFragment;
+import vn.phamthang.themovies.fragments.WishListFragment;
 
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, SearchFragment.onBack   {
@@ -54,7 +51,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         viewPagerMainActivityAdapter = new ViewPagerMainActivityAdapter(getSupportFragmentManager(),FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPagerMainActivityAdapter.addFragment(new HomeFragment());
         viewPagerMainActivityAdapter.addFragment(new SearchFragment());
-        viewPagerMainActivityAdapter.addFragment(new WhisListFragment());
+        viewPagerMainActivityAdapter.addFragment(new WishListFragment());
         binding.viewpagerHomeActivity.setAdapter(viewPagerMainActivityAdapter);
         binding.viewpagerHomeActivity.setOffscreenPageLimit(3);
         binding.viewpagerHomeActivity.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

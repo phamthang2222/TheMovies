@@ -1,7 +1,11 @@
 package vn.phamthang.themovies.ultis;
 
-public class Constant {
+import java.util.ArrayList;
 
+import vn.phamthang.themovies.objects.request.MovieRequest;
+
+public class Constant {
+    //API_______________________________________________________________________________________
     public static final String BASE_URL = "https://api.themoviedb.org";
     public static final String URL_LOADING_GIF = "https://loading.io/assets/mod/spinner/spinner/lg.gif";
     private static final String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w500/";
@@ -25,8 +29,9 @@ public class Constant {
     public static final String GET_VIDEO_MOVIE = "/3/movie/";
     public static final String GET_REVIEW_MOVIE = "/3/movie/";
     public static final String GET_CAST_MOVIE = "/3/movie/";
-    public static final String GET_FAV_MOVIE = "/3/account/"+ACCOUNT_ID+"/favorite/movies?language=en-US&page=1&sort_by=created_at.asc";
-
+    public static final String GET_FAV_MOVIE = "/3/account/"+ACCOUNT_ID+"/favorite/movies?" +
+            "language=en-US&page=1&sort_by=created_at.asc";
+    //----------------------------------------------------------------------------------
     //POST
     public static final String POST_FAV_MOVIE = "/3/account/"+ACCOUNT_ID+"/favorite";
     public static String convertLinkImage(String linkImage) {
@@ -38,5 +43,12 @@ public class Constant {
     public static String convertLinkVideo(String key) {
         return BASE_URL_YOUTUBE + key;
     }
+//    *
+//    *
+//    *
+//    *
+//    Data_______________________________________________________________________________________________
+    public static ArrayList<MovieRequest> wishListMovieLocal = new ArrayList<>();
+
 
 }
