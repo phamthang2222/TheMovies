@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".fragments.WhisListFragment">
 
+    <ImageView
+        android:id="@+id/imgEmptyWishList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/empty_wishlist"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/rcvFavMovie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
     <LinearLayout
 
         android:id="@+id/linearLayout"
@@ -24,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:visibility="invisible"
             android:layout_marginStart="@dimen/_20sdp"
             app:srcCompat="@drawable/ic_back" />
 
@@ -61,5 +73,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.519" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

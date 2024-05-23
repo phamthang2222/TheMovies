@@ -50,7 +50,7 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
 
     public WhisListFragment() {
     }
-    
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -63,7 +63,7 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
         Log.d(TAG, "onCreate: ");
 
     }
-   
+
     @Override
     public void onResume() {
         super.onResume();
@@ -89,7 +89,7 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
         Log.d(TAG, "onCreateView: ");
         binding = FragmentWhisListBinding.inflate(getLayoutInflater());
         return binding.getRoot();
-       
+
     }
 
     @Override
@@ -110,8 +110,6 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
         postFavMoviePresenter = new PostFavMoviePresenter(this);
         mListMovie = new ArrayList<>();
         mAdapter = new WhisListMovieAdapter(mListMovie, this);
-
-
         binding.rcvFavMovie.setAdapter(mAdapter);
         binding.rcvFavMovie.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -134,15 +132,17 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
     public void getMovieSuccess(BestMovieRespone response) {
         mListMovie.clear();
         mAdapter.updateData((ArrayList<Result>) response.getResults());
-
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_animation);
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation);
         binding.rcvFavMovie.setLayoutAnimation(layoutAnimationController);
+
+
     }
 
     @Override
     public void getMovieError(String error) {
 
     }
+
     @Override
     public void postMovieSuccess(ResponseBody responseBody) {
         Toast.makeText(getContext(), "Đã xoá khỏi WishList", Toast.LENGTH_SHORT).show();
@@ -153,12 +153,12 @@ public class WhisListFragment extends Fragment implements IMovieView, vn.phamtha
     public void postMovieError(String error) {
 
     }
+
     @Override
     public void onItemClick(int idMovie, int layout) {
         if (layout == R.id.itemFavMovie) {
             mDetailMoviePresenter.getDetailMovie(idMovie);
-        }
-        else if(layout == R.id.imgRemoveMovieFromList){
+        } else if (layout == R.id.imgRemoveMovieFromList) {
             MovieRequest request = new MovieRequest(idMovie, "movie", false);
             postFavMoviePresenter.postFavMovie(request);
         }

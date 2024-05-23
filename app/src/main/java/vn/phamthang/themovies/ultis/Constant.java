@@ -3,6 +3,7 @@ package vn.phamthang.themovies.ultis;
 public class Constant {
 
     public static final String BASE_URL = "https://api.themoviedb.org";
+    public static final String URL_LOADING_GIF = "https://loading.io/assets/mod/spinner/spinner/lg.gif";
     private static final String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w500/";
     private static final String BASE_URL_IMAGE2 = "https://image.tmdb.org/t/p/original";
     private static final String BASE_URL_YOUTUBE = "https://www.youtube.com/watch?v=";

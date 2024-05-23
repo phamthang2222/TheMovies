@@ -102,8 +102,8 @@ public class SpecialMovieAdapter extends RecyclerView.Adapter<SpecialMovieAdapte
         Glide.with(context)
                 .load(imageUrl)
                 .apply(new RequestOptions()
-                        .placeholder(R.drawable.loading) // GIF loading sẽ được hiển thị cho đến khi ảnh thực được tải xong
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)) // Tùy chọn lưu cache
+                        .placeholder(R.drawable.loading)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

@@ -140,8 +140,8 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
             edtSearch = binding.edtFind.getText().toString().trim();
             if (!edtSearch.isEmpty()) {
                 KeyBoardUtils keyBoardUtils = new KeyBoardUtils(getContext());
-//                EventBus.getDefault().postSticky(new MessageEvent(edtSearch));
 
+//                EventBus.getDefault().postSticky(new MessageEvent(edtSearch));
                 EventBus.getDefault().post(new MessageEvent(edtSearch));
 
                 if (getActivity() instanceof OnFragmentInteractionListener) {

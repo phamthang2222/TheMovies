@@ -50,10 +50,19 @@ public class ListCategoryMovieAdapter extends RecyclerView.Adapter<ListCategoryM
     public void onBindViewHolder(@NonNull ListCategoryMovieAdapter.NowPlayingMovieViewHolder holder, int position) {
         Result movie = mListMovie.get(position);
         int id = movie.getId();
-        Glide.with(context)
-                .load(Constant.convertLinkImage(movie.getPosterPath()))
-                .transform(new CenterCrop(), new RoundedCorners(30))
-                .into(holder.imgNowPlayingMovie);
+        String url = movie.getPosterPath();
+        if(url!=null){
+            Glide.with(context)
+                    .load(Constant.convertLinkImage(url))
+                    .transform(new CenterCrop(), new RoundedCorners(30))
+                    .into(holder.imgNowPlayingMovie);
+        }else{
+            Glide.with(context)
+                    .load(R.drawable.empty_image)
+                    .transform(new CenterCrop(), new RoundedCorners(30))
+                    .into(holder.imgNowPlayingMovie);
+        }
+
         holder.imgNowPlayingMovie.setOnClickListener(v -> {
             onItemClickListener.onItemClick(id);
         });

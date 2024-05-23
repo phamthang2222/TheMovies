@@ -56,12 +56,14 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         super.onCreate(savedInstanceState);
         Log.d(TAG, "OnCreate");
     }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
         EventBus.getDefault().register(this);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -80,6 +82,7 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         super.onResume();
         Log.d(TAG, "onResume");
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -92,6 +95,18 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         super.onViewCreated(view, savedInstanceState);
         initData();
         initView();
+        if (savedInstanceState != null) {
+            // Khôi phục chuỗi tìm kiếm
+            stringSearch = savedInstanceState.getString("stringSearch", "");
+            binding.edtFind.setText(stringSearch);
+            // Khôi phục danh sách phim
+            listMovie = (ArrayList<Result>) savedInstanceState.getSerializable("listMovie");
+            if (listMovie != null && !listMovie.isEmpty()) {
+                binding.imgNoneSearch.setVisibility(View.INVISIBLE); // ẩn ảnh nếu có kết quả
+                mAdapter.updateData(listMovie);
+            }
+        }
+
     }
 
     private void initView() {
@@ -125,14 +140,15 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
     private void initData() {
         mDetailMoviePresenter = new DetailMoviePresenter(this);
         moviePresenter = new MoviePresenter(this);
-        listMovie = new ArrayList<>();
+        if (listMovie == null) {
+            listMovie = new ArrayList<>();
+        }
         mAdapter = new SearchMovieAdapter(listMovie, this);
         binding.imgNoneSearch.setVisibility(View.VISIBLE);
 
         binding.rcvSearchMovie.setAdapter(mAdapter);
         binding.rcvSearchMovie.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
     }
 
     private void getMovie(String input) {
@@ -145,7 +161,7 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         binding.imgNoneSearch.setVisibility(View.INVISIBLE);// ẩn ảnh cho đẹp thôi :))) make color
         mAdapter.updateData((ArrayList<Result>) response.getResults());
 
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_animation);
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation);
         binding.rcvSearchMovie.setLayoutAnimation(layoutAnimationController);
 
     }
@@ -179,7 +195,14 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
     public void onItemClick(int idMovie) {
         mDetailMoviePresenter.getDetailMovie(idMovie);
     }
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Lưu chuỗi tìm kiếm
+        outState.putString("stringSearch", stringSearch);
+        // Lưu danh sách phim
+        outState.putSerializable("listMovie", listMovie);
+    }
     public interface onBack {
         void onBack();
     }
