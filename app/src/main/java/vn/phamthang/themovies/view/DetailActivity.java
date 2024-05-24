@@ -37,6 +37,7 @@ import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.presenter.PostFavMoviePresenter;
 import vn.phamthang.themovies.presenter.VideoMoviePresenter;
 import vn.phamthang.themovies.ultis.Constant;
+import vn.phamthang.themovies.ultis.DataManager;
 import vn.phamthang.themovies.ultis.MessageEvent;
 
 public class DetailActivity extends AppCompatActivity implements IPostFavMovieView, IMovieView, IVideoMovieView {
@@ -56,7 +57,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(getResources().getColor(R.color.prime_color));
 
-
+        Constant.wishListMovieLocal = DataManager.loadFavoriteMovie(this);
         initData();
         initView();
 
@@ -120,18 +121,27 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
             MovieRequest request = new MovieRequest(mediaID, "movie", true);
 
             if (Constant.wishListMovieLocal == null) {
+
                 Constant.wishListMovieLocal.add(request);
+                DataManager.saveFavoriteMovie(this,Constant.wishListMovieLocal);
+
                 postFavMoviePresenter.postFavMovie(request);
                 binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
             } else {
                 if (!isCheckFav(mediaID)) {
+
                     Constant.wishListMovieLocal.add(request);
+                    DataManager.saveFavoriteMovie(this,Constant.wishListMovieLocal);
+
                     postFavMoviePresenter.postFavMovie(request);
                     binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
                 }else{
                     MovieRequest requestRemove = new MovieRequest(mediaID, "movie", false);
                     postFavMoviePresenter.postFavMovie(requestRemove);
+
                     Constant.wishListMovieLocal.remove(requestRemove);
+                    DataManager.saveFavoriteMovie(this,Constant.wishListMovieLocal);
+
                     binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
                 }
             }
@@ -186,6 +196,9 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     }
 
     private boolean isCheckFav(int idMovie) {
+        if(Constant.wishListMovieLocal == null){
+            return false;
+        }
         for (MovieRequest movieRequest : Constant.wishListMovieLocal) {
             if (movieRequest.getMedia_id() == idMovie) {
                 return true;
