@@ -50,6 +50,9 @@ public interface IDummyServices {
     @GET(Constant.GET_CAST_MOVIE+ "{idMovie}" + "/casts?language=en-US&page=1" + Constant.API_KEY)
     Call<CastingRespone> getCastMovie(@Path("idMovie") int idMovie);
 
+    @GET(Constant.GET_SIMILAR_MOVIE+ "{idMovie}" + "/similar?language=en-US&page=1" + Constant.API_KEY)
+    Call<BestMovieRespone> getSimilarMovie(@Path("idMovie") int idMovie);
+
     //----------------------------------------------------------------------
     //POST
     @POST(Constant.POST_FAV_MOVIE + Constant.API_KEY)

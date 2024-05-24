@@ -97,6 +97,13 @@ public class AboutMovieFragment extends Fragment {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onNoteCreated(MessageEvent event) {
         movie = event.getMovie();
-        binding.tvAboutMovie.setText(movie.getOverview() + "");
+        String overview = movie.getOverview();
+        if(overview.isEmpty()){
+            binding.tvAboutMovie.setTextColor(getResources().getColor(R.color.red));
+            binding.tvAboutMovie.setText("None information");
+        }else {
+            binding.tvAboutMovie.setText(overview);
+        }
+
     }
 }

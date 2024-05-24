@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/_4sdp"
+    android:layout_width="@dimen/_200sdp"
+    android:layout_height="@dimen/_260sdp">
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_similar_movie"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgBgSimilarMovie"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/_4sdp"
+        android:layout_marginTop="4dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/view3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/backgroun_view_similar_movie"
+        app:layout_constraintBottom_toBottomOf="@+id/imgBgSimilarMovie"
+        app:layout_constraintEnd_toEndOf="@+id/imgBgSimilarMovie"
+        app:layout_constraintStart_toStartOf="@id/imgBgSimilarMovie"
+        app:layout_constraintTop_toTopOf="@id/imgBgSimilarMovie" />
+
+    <TextView
+        android:id="@+id/tvTitleSimilarMovie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="@dimen/_100sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="Spiderman No Way Home"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imgBgSimilarMovie"
+        app:layout_constraintStart_toStartOf="@+id/imgBgSimilarMovie"
+         />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

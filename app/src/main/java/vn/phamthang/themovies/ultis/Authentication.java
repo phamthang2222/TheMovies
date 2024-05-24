@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,6 +43,7 @@ public class Authentication {
                             Intent intent = new Intent(activity, FlashLoginSuccessActivity.class);
                             activity.startActivity(intent);
                             activity.finish();
+                            Animatoo.INSTANCE.animateSlideUp(activity);
 
                         } else {
                             Toast.makeText(activity, "Sai tên đăng nhập/mật khẩu ", Toast.LENGTH_SHORT).show();

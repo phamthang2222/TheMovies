@@ -35,6 +35,6 @@ public class FlashLoginSuccessActivity extends AppCompatActivity {
                 Animatoo.INSTANCE.animateShrink(FlashLoginSuccessActivity.this);
                 finish();
             }
-        }, 1000);
+        }, 1500);
     }
 }

@@ -2,6 +2,7 @@ package vn.phamthang.themovies.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +21,10 @@ import java.util.ArrayList;
 import okhttp3.ResponseBody;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMovieView;
+import vn.phamthang.themovies.Interface.SimilarMovie.ISimilarMovieView;
 import vn.phamthang.themovies.Interface.VideoMovie.IVideoMovieView;
 import vn.phamthang.themovies.R;
+import vn.phamthang.themovies.adapters.SimilarMovieAdapter;
 import vn.phamthang.themovies.adapters.VideoMovieAdapter;
 import vn.phamthang.themovies.adapters.ViewPagerAdapter.ViewPagerDetailMovieAdapter;
 import vn.phamthang.themovies.databinding.ActivityDetailBinding;
@@ -35,20 +38,25 @@ import vn.phamthang.themovies.objects.Video.ResultVideoMovie;
 import vn.phamthang.themovies.objects.request.MovieRequest;
 import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.presenter.PostFavMoviePresenter;
+import vn.phamthang.themovies.presenter.SimilarMoviePresenter;
 import vn.phamthang.themovies.presenter.VideoMoviePresenter;
 import vn.phamthang.themovies.ultis.Constant;
 import vn.phamthang.themovies.ultis.DataManager;
 import vn.phamthang.themovies.ultis.MessageEvent;
 
-public class DetailActivity extends AppCompatActivity implements IPostFavMovieView, IMovieView, IVideoMovieView {
+public class DetailActivity extends AppCompatActivity implements IPostFavMovieView, IMovieView, IVideoMovieView, ISimilarMovieView {
 
     private PostFavMoviePresenter postFavMoviePresenter;
     private MoviePresenter mMoviePresenter;
     private VideoMoviePresenter mVideoMoviePresenter;
-    private VideoMovieAdapter mAdapter;
+    private SimilarMoviePresenter mSimilarMoviePresenter;
+    private VideoMovieAdapter mVideoMovieAdapter;
+    private SimilarMovieAdapter mSimilarMovieAdapter;
+
     private ActivityDetailBinding binding;
     private Movie movie = new Movie();
     private ArrayList<vn.phamthang.themovies.objects.Video.Result> listVideoTrailer;
+    private ArrayList<Result> listSimilarMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,19 +72,33 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     }
 
     private void initData() {
-
+        //----------------------------------------------------------------------------------
+        //presenter
         mMoviePresenter = new MoviePresenter(this);
         mVideoMoviePresenter = new VideoMoviePresenter(this);
+        mSimilarMoviePresenter = new SimilarMoviePresenter(this);
+        //----------------------------------------------------------------------------------
+        //array list
         listVideoTrailer = new ArrayList<>();
-        mAdapter = new VideoMovieAdapter(listVideoTrailer);
-
+        listSimilarMovie = new ArrayList<>();
+        //----------------------------------------------------------------------------------
+        //adapter
+        mVideoMovieAdapter = new VideoMovieAdapter(listVideoTrailer);
+        mSimilarMovieAdapter = new SimilarMovieAdapter(listSimilarMovie);
         mMoviePresenter.getFavMovie();
-
-        binding.rcvVideoTrailer.setAdapter(mAdapter);
+        //----------------------------------------------------------------------------------
+        //recyclerview
+        binding.rcvVideoTrailer.setAdapter(mVideoMovieAdapter);
         binding.rcvVideoTrailer.setLayoutManager(
                 new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
+        binding.rcvSimilarMovie.setAdapter(mSimilarMovieAdapter);
+        binding.rcvSimilarMovie.setLayoutManager(
+                new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        //----------------------------------------------------------------------------------
+        // set Data
         Intent intent = getIntent();
+
         movie = (Movie) intent.getSerializableExtra("movie");
         int idMovie = movie.getId();
         Glide.with(binding.imgMovieDetail)
@@ -95,17 +117,19 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         binding.tvGenre.setText(movie.getGenres().get(0).getName() + "");// 1list lấy tạm phần tử 0
         if (!isCheckFav(idMovie)) {
             binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
-        }else{
+        } else {
             binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
         }
-
         getVideoMovie(idMovie);
-
-
+        getSimilarMovie(idMovie);
     }
 
     private void getVideoMovie(int idMovie) {
         mVideoMoviePresenter.getDetailMovie(idMovie);
+    }
+
+    private void getSimilarMovie(int idMovie) {
+        mSimilarMoviePresenter.getSimilar(idMovie);
     }
 
     private void initView() {
@@ -123,7 +147,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
             if (Constant.wishListMovieLocal == null) {
 
                 Constant.wishListMovieLocal.add(request);
-                DataManager.saveFavoriteMovie(this,Constant.wishListMovieLocal);
+                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
 
                 postFavMoviePresenter.postFavMovie(request);
                 binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
@@ -131,16 +155,16 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
                 if (!isCheckFav(mediaID)) {
 
                     Constant.wishListMovieLocal.add(request);
-                    DataManager.saveFavoriteMovie(this,Constant.wishListMovieLocal);
+                    DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
 
                     postFavMoviePresenter.postFavMovie(request);
                     binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
-                }else{
+                } else {
                     MovieRequest requestRemove = new MovieRequest(mediaID, "movie", false);
                     postFavMoviePresenter.postFavMovie(requestRemove);
 
                     Constant.wishListMovieLocal.remove(requestRemove);
-                    DataManager.saveFavoriteMovie(this,Constant.wishListMovieLocal);
+                    DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
 
                     binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
                 }
@@ -174,9 +198,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     @Override
     public void getMovieSuccess(BestMovieRespone response) {
-//        for (Result movie : response.getResults()) {
-//            listFav.add(movie.getId());
-//        }
+
     }
 
     @Override
@@ -187,7 +209,12 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     @Override
     public void getVideoMovieSuccess(ResultVideoMovie responseVideoMovie) {
         listVideoTrailer.clear();
-        mAdapter.updateData((ArrayList<vn.phamthang.themovies.objects.Video.Result>) responseVideoMovie.getResults());
+        mVideoMovieAdapter.updateData((ArrayList<vn.phamthang.themovies.objects.Video.Result>) responseVideoMovie.getResults());
+//        binding.emptyVideo.setVisibility(View.INVISIBLE);
+        if (responseVideoMovie.getResults().isEmpty()) {
+            binding.emptyVideo.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @Override
@@ -195,8 +222,19 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     }
 
+    @Override
+    public void getSimilarMovieSuccess(BestMovieRespone response) {
+        listSimilarMovie.clear();
+        mSimilarMovieAdapter.updateData((ArrayList<Result>) response.getResults());
+    }
+
+    @Override
+    public void getSimilarMovieError(String error) {
+
+    }
+
     private boolean isCheckFav(int idMovie) {
-        if(Constant.wishListMovieLocal == null){
+        if (Constant.wishListMovieLocal == null) {
             return false;
         }
         for (MovieRequest movieRequest : Constant.wishListMovieLocal) {

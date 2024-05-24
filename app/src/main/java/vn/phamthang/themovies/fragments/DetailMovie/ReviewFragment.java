@@ -117,11 +117,14 @@ public class ReviewFragment extends Fragment implements IReviewMovieView {
     @Override
     public void getReviewSuccess(ReviewResponse reviewResponse) {
         mListReview.clear();
+
         mAdapter.updateData((ArrayList<Result>) reviewResponse.getResults());
+        if(reviewResponse.getResults().isEmpty()){
+            binding.tvNoneRivew.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void getReviewError(String error) {
-        Toast.makeText(getContext(), "that bai", Toast.LENGTH_SHORT).show();
     }
 }
