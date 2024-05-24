@@ -12,30 +12,29 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.bumptech.glide.Glide;
 
 import vn.phamthang.themovies.R;
-import vn.phamthang.themovies.databinding.ActivityFlashArtBinding;
+import vn.phamthang.themovies.databinding.ActivityFlashLoginSuccessBinding;
 
-public class FlashArtActivity extends AppCompatActivity {
-    ActivityFlashArtBinding binding;
-
+public class FlashLoginSuccessActivity extends AppCompatActivity {
+    ActivityFlashLoginSuccessBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityFlashArtBinding.inflate(getLayoutInflater());
+        binding = ActivityFlashLoginSuccessBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         getWindow().setStatusBarColor(getResources().getColor(R.color.prime_color));
+
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(FlashArtActivity.this, LoginActivity.class));
-                Animatoo.INSTANCE.animateShrink(FlashArtActivity.this);
+                startActivity(new Intent(FlashLoginSuccessActivity.this, HomeActivity.class));
+                Animatoo.INSTANCE.animateShrink(FlashLoginSuccessActivity.this);
                 finish();
             }
-        }, 500);
-
+        }, 1000);
     }
-
-
 }

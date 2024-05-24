@@ -16,22 +16,30 @@
         android:theme="@style/Theme.TheMovies"
         tools:targetApi="31">
         <activity
+            android:name=".view.FlashLoginSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.DetailActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".view.FlashArtActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".view.HomeActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing">
-
-        </activity>
+            android:windowSoftInputMode="adjustNothing" />
     </application>
 
 </manifest>

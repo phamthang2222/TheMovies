@@ -5,4 +5,7 @@
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="watch_list">Watch List</string>
+    <string name="create"><u>Create</u></string>
+    <string name="login"><u>Login</u></string>
+
 </resources>
