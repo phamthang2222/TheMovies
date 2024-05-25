@@ -12,7 +12,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.databinding.ActivityLoginBinding;
-import vn.phamthang.themovies.ultis.Authentication;
+import vn.phamthang.themovies.Helper.Authentication;
 import vn.phamthang.themovies.ultis.KeyBoardUtils;
 
 public class LoginActivity extends AppCompatActivity {

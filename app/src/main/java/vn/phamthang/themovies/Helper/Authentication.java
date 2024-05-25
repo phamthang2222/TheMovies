@@ -1,4 +1,4 @@
-package vn.phamthang.themovies.ultis;
+package vn.phamthang.themovies.Helper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import vn.phamthang.themovies.CustomToast.FailToast;
+import vn.phamthang.themovies.CustomToast.SuccessfulToast;
 import vn.phamthang.themovies.view.FlashLoginSuccessActivity;
 import vn.phamthang.themovies.view.HomeActivity;
 
@@ -25,9 +27,9 @@ public class Authentication {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(context, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                            new SuccessfulToast(context, "Đăng kí thành công").showToast();
                         } else {
-                            Toast.makeText(context, "Đăng kí thất bại ", Toast.LENGTH_SHORT).show();
+                            new FailToast(context,"Đăng kí thất bại ").showToast();
                         }
                     }
                 });
@@ -39,14 +41,16 @@ public class Authentication {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(activity, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                            //toast
+                            new SuccessfulToast(activity, "Đăng nhập thành công").showToast();
+                            //intent
                             Intent intent = new Intent(activity, FlashLoginSuccessActivity.class);
                             activity.startActivity(intent);
                             activity.finish();
                             Animatoo.INSTANCE.animateSlideUp(activity);
 
                         } else {
-                            Toast.makeText(activity, "Sai tên đăng nhập/mật khẩu ", Toast.LENGTH_SHORT).show();
+                            new FailToast(activity,"Sai tên đăng nhập/mật khẩu").showToast();
                         }
                     }
                 });

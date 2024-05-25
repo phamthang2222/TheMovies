@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import vn.phamthang.themovies.objects.request.MovieRequest;
 
@@ -36,5 +37,13 @@ public class DataManager {
         Type type = new TypeToken<ArrayList<MovieRequest>>() {}.getType();
 
         return gson.fromJson(json, type); // Chuyển đổi JSON thành ArrayList
+    }
+    public static void removeFavoriteMovie(Context context,  ArrayList<MovieRequest> listFav) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear(); // Xóa tất cả dữ liệu trong SharedPreferences
+        editor.apply(); // Áp dụng thay đổi
+
+        saveFavoriteMovie(context,listFav);
     }
 }

@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
+import vn.phamthang.themovies.CustomToast.SuccessfulToast;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMovieView;
 import vn.phamthang.themovies.Interface.SimilarMovie.ISimilarMovieView;
@@ -98,7 +99,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         //----------------------------------------------------------------------------------
         // set Data
         Intent intent = getIntent();
-
         movie = (Movie) intent.getSerializableExtra("movie");
         int idMovie = movie.getId();
         Glide.with(binding.imgMovieDetail)
@@ -139,37 +139,56 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         });
 
         binding.imgAddToFav.setOnClickListener(v -> {
+//            int mediaID = movie.getId();
+//            postFavMoviePresenter = new PostFavMoviePresenter(this);
+//
+//            MovieRequest requestAddToFav = new MovieRequest(mediaID, "movie", true);
+//            MovieRequest requestRemoveFromFav = new MovieRequest(mediaID, "movie", false);
+//
+//            if (Constant.wishListMovieLocal == null) {
+//
+//                Constant.wishListMovieLocal.add(requestAddToFav);
+//                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
+//
+//                postFavMoviePresenter.postFavMovie(requestAddToFav);
+//                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
+//            } else {
+//                if (!isCheckFav(mediaID)) {
+//
+//                    Constant.wishListMovieLocal.add(requestAddToFav);
+//                    DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
+//
+//                    postFavMoviePresenter.postFavMovie(requestAddToFav);
+//                    binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
+//                } else {
+//                    postFavMoviePresenter.postFavMovie(requestRemoveFromFav);
+//
+//                    Constant.wishListMovieLocal.remove(requestAddToFav);
+//                    DataManager.removeFavoriteMovie(this,Constant.wishListMovieLocal);
+//                    binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
+//                }
+//            }
             int mediaID = movie.getId();
             postFavMoviePresenter = new PostFavMoviePresenter(this);
 
-            MovieRequest request = new MovieRequest(mediaID, "movie", true);
+            MovieRequest requestAddToFav = new MovieRequest(mediaID, "movie", true);
+            MovieRequest requestRemoveFromFav = new MovieRequest(mediaID, "movie", false);
 
             if (Constant.wishListMovieLocal == null) {
-
-                Constant.wishListMovieLocal.add(request);
-                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
-
-                postFavMoviePresenter.postFavMovie(request);
-                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
-            } else {
-                if (!isCheckFav(mediaID)) {
-
-                    Constant.wishListMovieLocal.add(request);
-                    DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
-
-                    postFavMoviePresenter.postFavMovie(request);
-                    binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
-                } else {
-                    MovieRequest requestRemove = new MovieRequest(mediaID, "movie", false);
-                    postFavMoviePresenter.postFavMovie(requestRemove);
-
-                    Constant.wishListMovieLocal.remove(requestRemove);
-                    DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
-
-                    binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
-                }
+                Constant.wishListMovieLocal = new ArrayList<>();
             }
 
+            if (!isCheckFav(mediaID)) {
+                Constant.wishListMovieLocal.add(requestAddToFav);
+                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
+                postFavMoviePresenter.postFavMovie(requestAddToFav);
+                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
+            } else {
+                postFavMoviePresenter.postFavMovie(requestRemoveFromFav);
+                Constant.wishListMovieLocal.removeIf(movieRequest -> movieRequest.getMedia_id() == mediaID);
+                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
+                binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
+            }
         });
         binding.tabLayoutDetailMovie.setupWithViewPager(binding.viewPagerDetailMovie);
         ViewPagerDetailMovieAdapter viewPagerDetailMovieAdapter = new ViewPagerDetailMovieAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -186,8 +205,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     @Override
     public void postMovieSuccess(ResponseBody responseBody) {
-        Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-
+        new SuccessfulToast(this,"Cập nhật thành công!").showToast();
     }
 
     @Override
@@ -210,7 +228,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     public void getVideoMovieSuccess(ResultVideoMovie responseVideoMovie) {
         listVideoTrailer.clear();
         mVideoMovieAdapter.updateData((ArrayList<vn.phamthang.themovies.objects.Video.Result>) responseVideoMovie.getResults());
-//        binding.emptyVideo.setVisibility(View.INVISIBLE);
         if (responseVideoMovie.getResults().isEmpty()) {
             binding.emptyVideo.setVisibility(View.VISIBLE);
 
@@ -226,6 +243,10 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     public void getSimilarMovieSuccess(BestMovieRespone response) {
         listSimilarMovie.clear();
         mSimilarMovieAdapter.updateData((ArrayList<Result>) response.getResults());
+        if (response.getResults().isEmpty()) {
+            binding.emptySimilar.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @Override
@@ -234,7 +255,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     }
 
     private boolean isCheckFav(int idMovie) {
-        if (Constant.wishListMovieLocal == null) {
+        if (Constant.wishListMovieLocal.isEmpty()) {
             return false;
         }
         for (MovieRequest movieRequest : Constant.wishListMovieLocal) {

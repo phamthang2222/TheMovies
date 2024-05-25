@@ -49,7 +49,7 @@ public class Constant {
 //    *
 //    *
 //    Data_______________________________________________________________________________________________
-    public static ArrayList<MovieRequest> wishListMovieLocal = new ArrayList<>();
+    public static ArrayList<MovieRequest> wishListMovieLocal;
 
 
 }

@@ -2,18 +2,13 @@ package vn.phamthang.themovies.view;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 import vn.phamthang.themovies.R;
-import vn.phamthang.themovies.databinding.ActivityLoginBinding;
 import vn.phamthang.themovies.databinding.ActivitySignUpBinding;
-import vn.phamthang.themovies.ultis.Authentication;
+import vn.phamthang.themovies.Helper.Authentication;
 import vn.phamthang.themovies.ultis.KeyBoardUtils;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -37,12 +32,16 @@ public class SignUpActivity extends AppCompatActivity {
         binding.imgSignup.setOnClickListener(v -> {
             String email = binding.edtEmail.getText().toString().trim();
             String password = binding.edtPassword.getText().toString().trim();
+            String username = binding.edtUsername.getText().toString().trim();
             String repeatPassword = binding.edtReapectPassword.getText().toString().trim();
             KeyBoardUtils keyBoardUtils = new KeyBoardUtils(getBaseContext());
 
             if(email.isEmpty()){
                 binding.edtEmail.setError("Không bỏ trống");
             }else{
+                if(username.isEmpty()){
+                    binding.edtUsername.setError("Không bỏ trống");
+                }
                 if(password.isEmpty()){
                     binding.edtPassword.setError("Không bỏ trống");
                 }else{

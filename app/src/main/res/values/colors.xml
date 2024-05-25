@@ -8,4 +8,5 @@
     <color name="orange">#FF8700</color>
     <color name="blue">#0296E5</color>
     <color name="red">#FA021E</color>
+    <color name="completed_status_color">#48DC7D</color>
 </resources>

@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -60,11 +61,14 @@ dependencies {
     implementation("org.greenrobot:eventbus:3.3.1")
     debugImplementation( "com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation ("com.github.chuckerteam.chucker:library-no-op:4.0.0")
-    implementation ("com.github.AtifSayings:Animatoo:1.0.1")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("com.github.bumptech.glide:okhttp3-integration:4.12.0") // Dành cho hỗ trợ tải ảnh từ internet
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
+    //animation
+    implementation ("com.airbnb.android:lottie:6.4.0")
+    implementation ("com.github.AtifSayings:Animatoo:1.0.1")
+
 
 
 

@@ -80,6 +80,7 @@
                 android:background="#80000000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/imgMovieDetail"
                 android:layout_width="@dimen/_95sdp"
@@ -292,6 +293,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:minHeight="@dimen/_200sdp"
                 app:layout_constraintEnd_toEndOf="@+id/imgBgMovie"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvtrailer" />
@@ -311,6 +313,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvtrailer" />
+
             <TextView
                 android:id="@+id/tvSimilar"
                 android:layout_width="match_parent"
@@ -319,20 +322,37 @@
                 android:layout_marginTop="@dimen/_12sdp"
                 android:fontFamily="@font/montserrat_semibold"
                 android:gravity="left"
-                android:text="Simalar Movie"
+                android:text="Similar Movie"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/_20sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rcvVideoTrailer"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/rcvVideoTrailer" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvSimilarMovie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:minHeight="@dimen/_180sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/imgBgMovie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSimilar" />
+
+            <TextView
+                android:id="@+id/emptySimilar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/background_video_trailer"
+                android:fontFamily="@font/montserrat_semibold"
+                android:gravity="center"
+                android:text="No Similar Movie"
+                android:textColor="@color/red"
+                android:textSize="@dimen/_18sdp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSimilar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
