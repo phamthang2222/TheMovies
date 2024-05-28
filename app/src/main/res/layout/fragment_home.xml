@@ -16,7 +16,7 @@
         android:fontFamily="@font/montserrat_bold"
         android:paddingTop="@dimen/_10sdp"
         android:paddingBottom="@dimen/_10sdp"
-        android:text="Hi, Phạm Thắng"
+        android:text="Hi,..."
         android:textColor="@color/orange"
         android:textSize="@dimen/_14sdp"
         app:layout_constraintStart_toStartOf="@+id/textView"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
         android:text="What do you want to watch?"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_4sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_18sdp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
         android:id="@+id/lllll"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/find_background"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/textView"
@@ -74,10 +74,10 @@
 
         <ImageView
             android:id="@+id/imgFind"
-            android:layout_width="@dimen/_50sdp"
+            android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center"
-            android:padding="@dimen/_3sdp"
+            android:padding="@dimen/_6sdp"
             android:layout_margin="10dp"
             app:srcCompat="@drawable/ic_search" />
     </LinearLayout>

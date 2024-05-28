@@ -103,7 +103,7 @@ public class WishListFragment extends Fragment implements IMovieView, vn.phamtha
 
     private void initData() {
         mMoviePresenter = new MoviePresenter(this);
-        mDetailMoviePresenter = new DetailMoviePresenter(this);
+//        mDetailMoviePresenter = new DetailMoviePresenter(this);
         mDetailMoviePresenter = new DetailMoviePresenter(this);
         postFavMoviePresenter = new PostFavMoviePresenter(this);
         mListMovie = new ArrayList<>();

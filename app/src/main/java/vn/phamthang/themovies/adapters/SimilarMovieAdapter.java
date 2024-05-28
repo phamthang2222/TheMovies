@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,9 +24,11 @@ import vn.phamthang.themovies.ultis.Constant;
 public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapter.SimilarMovieViewHolder> {
     private ArrayList<Result> mListSimilarMovie;
     private Context mContext;
+    private OnItemClickListener onItemClickListener;
 
-    public SimilarMovieAdapter(ArrayList<Result> mListSimilarMovie) {
+    public SimilarMovieAdapter(ArrayList<Result> mListSimilarMovie,OnItemClickListener listener) {
         this.mListSimilarMovie = mListSimilarMovie;
+        this.onItemClickListener = listener;
     }
     public void updateData(ArrayList<Result> mListSimilarMovie){
         this.mListSimilarMovie.clear();
@@ -53,6 +56,9 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
                     .into(holder.imgBgSimilarMovie);
         }
         holder.tvTitleSimilarMovie.setText(similarMovie.getTitle());
+        holder.layout.setOnClickListener(v -> {
+            onItemClickListener.onClick(similarMovie.getId());
+        });
     }
 
     @Override
@@ -63,10 +69,16 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
     public class SimilarMovieViewHolder extends RecyclerView.ViewHolder{
         ImageView imgBgSimilarMovie;
         TextView tvTitleSimilarMovie;
+        ConstraintLayout layout;
         public SimilarMovieViewHolder(@NonNull View itemView) {
             super(itemView);
             imgBgSimilarMovie = itemView.findViewById(R.id.imgBgSimilarMovie);
             tvTitleSimilarMovie = itemView.findViewById(R.id.tvTitleSimilarMovie);
+            layout = itemView.findViewById(R.id.similarMovie);
         }
+    }
+
+    public interface OnItemClickListener{
+        void onClick(int id);
     }
 }

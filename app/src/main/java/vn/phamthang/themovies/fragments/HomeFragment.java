@@ -30,7 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import vn.phamthang.themovies.CustomToast.SuccessfulToast;
 import vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.adapters.SpecialMovieAdapter;
@@ -50,7 +49,6 @@ import vn.phamthang.themovies.ultis.KeyBoardUtils;
 import vn.phamthang.themovies.ultis.MessageEvent;
 import vn.phamthang.themovies.view.DetailActivity;
 import vn.phamthang.themovies.view.LoginActivity;
-import vn.phamthang.themovies.view.SignUpActivity;
 
 public class HomeFragment extends Fragment implements IMovieView, IMovieDetailView, SpecialMovieAdapter.OnItemClickListener {
 

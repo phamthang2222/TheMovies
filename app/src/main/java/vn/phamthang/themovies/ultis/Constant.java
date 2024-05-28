@@ -51,5 +51,6 @@ public class Constant {
 //    Data_______________________________________________________________________________________________
     public static ArrayList<MovieRequest> wishListMovieLocal;
 
-
+    //FIRE BASE
+    public static final String USER = "USER";
 }

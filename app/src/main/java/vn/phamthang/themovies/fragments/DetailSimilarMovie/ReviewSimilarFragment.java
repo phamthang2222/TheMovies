@@ -1,18 +1,16 @@
-package vn.phamthang.themovies.fragments.DetailMovie;
+package vn.phamthang.themovies.fragments.DetailSimilarMovie;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -21,7 +19,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 
 import vn.phamthang.themovies.Interface.ReviewMovie.IReviewMovieView;
-import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.adapters.ListReviewAdapter;
 import vn.phamthang.themovies.databinding.FragmentReviewBinding;
 import vn.phamthang.themovies.objects.Movie;
@@ -30,7 +27,7 @@ import vn.phamthang.themovies.objects.Review.ReviewResponse;
 import vn.phamthang.themovies.presenter.ReviewPresenter;
 import vn.phamthang.themovies.ultis.MessageEvent;
 
-public class ReviewFragment extends Fragment implements IReviewMovieView {
+public class ReviewSimilarFragment extends Fragment implements IReviewMovieView {
 
     private Movie movie;
     private int iDMovie;
@@ -42,7 +39,7 @@ public class ReviewFragment extends Fragment implements IReviewMovieView {
 
     FragmentReviewBinding binding;
 
-    public ReviewFragment() {
+    public ReviewSimilarFragment() {
         // Required empty public constructor
     }
 
@@ -70,14 +67,12 @@ public class ReviewFragment extends Fragment implements IReviewMovieView {
         super.onStart();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
-        }
-    }
+        }    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
     }
 
     @Override

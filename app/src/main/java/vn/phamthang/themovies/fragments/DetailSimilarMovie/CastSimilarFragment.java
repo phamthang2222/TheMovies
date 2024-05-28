@@ -1,15 +1,14 @@
-package vn.phamthang.themovies.fragments.DetailMovie;
+package vn.phamthang.themovies.fragments.DetailSimilarMovie;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -18,7 +17,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 
 import vn.phamthang.themovies.Interface.CastingMovie.ICastingMovieView;
-import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.adapters.ListCastAdapter;
 import vn.phamthang.themovies.databinding.FragmentCastBinding;
 import vn.phamthang.themovies.objects.Cast.Cast;
@@ -27,7 +25,7 @@ import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.presenter.CastingMoviePresenter;
 import vn.phamthang.themovies.ultis.MessageEvent;
 
-public class CastFragment extends Fragment implements ICastingMovieView {
+public class CastSimilarFragment extends Fragment implements ICastingMovieView {
 
     private Movie movie;
     private int iDMovie;
@@ -37,7 +35,7 @@ public class CastFragment extends Fragment implements ICastingMovieView {
 
     FragmentCastBinding binding;
 
-    public CastFragment() {
+    public CastSimilarFragment() {
         // Required empty public constructor
     }
 
@@ -47,6 +45,11 @@ public class CastFragment extends Fragment implements ICastingMovieView {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -99,5 +102,6 @@ public class CastFragment extends Fragment implements ICastingMovieView {
         movie = event.getMovie();
         iDMovie = movie.getId();
         mCastingMoviePresenter.getCasting(iDMovie);
+        EventBus.getDefault().removeStickyEvent(event);
     }
 }

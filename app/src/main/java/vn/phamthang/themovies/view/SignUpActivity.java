@@ -5,18 +5,19 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-
+import vn.phamthang.themovies.Interface.SignUp.ISignUpView;
 import vn.phamthang.themovies.R;
+import vn.phamthang.themovies.custom_toast.FailToast;
+import vn.phamthang.themovies.custom_toast.SuccessfulToast;
 import vn.phamthang.themovies.databinding.ActivitySignUpBinding;
-import vn.phamthang.themovies.Helper.Authentication;
-import vn.phamthang.themovies.objects.User.User;
+import vn.phamthang.themovies.presenter.SignUpPresenter;
 import vn.phamthang.themovies.ultis.KeyBoardUtils;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements ISignUpView {
     ActivitySignUpBinding binding;
+    private SignUpPresenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,8 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(getResources().getColor(R.color.prime_color));
 
+
+        mPresenter = new SignUpPresenter(this);
         initView();
     }
 
@@ -54,12 +57,24 @@ public class SignUpActivity extends AppCompatActivity {
             } else if (!repeatPassword.equals(password)) {
                 binding.edtReapectPassword.setError(getString(R.string.error_password_mismatch));
             } else {
-                FirebaseUser firebaseUser = Authentication.firebaseAuth.getCurrentUser();
-                String userId = firebaseUser.getUid();
-                User user = new User(userId, email, username, password, new ArrayList<>());
-                Authentication.onSignUp(email, password, this,username);
+//                FirebaseUser firebaseUser = Authentication.firebaseAuth.getCurrentUser();
+//                String userId = firebaseUser.getUid();
+//                User user = new User(userId, email, username, password, new ArrayList<>());
+//                Authentication.onSignUp(email, password, this,username);
+                mPresenter.signUp(email, password, username);
+
             }
             keyBoardUtils.hideKeyboard(v);
         });
+    }
+
+    @Override
+    public void signUpSuccess() {
+        new SuccessfulToast(SignUpActivity.this, "Đăng kí thành công").showToast();
+    }
+
+    @Override
+    public void signUpError(String message) {
+        new FailToast(SignUpActivity.this, "Email đã đăng ký!").showToast();
     }
 }

@@ -1,16 +1,15 @@
-package vn.phamthang.themovies.fragments.DetailMovie;
+package vn.phamthang.themovies.fragments.DetailSimilarMovie;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -18,26 +17,24 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.databinding.FragmentAboutMovieBinding;
+import vn.phamthang.themovies.databinding.FragmentAboutSimilarMovieBinding;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.ultis.MessageEvent;
-import vn.phamthang.themovies.view.DetailActivity;
 
 
-public class AboutMovieFragment extends Fragment {
+public class AboutSimilarMovieFragment extends Fragment {
 
-    FragmentAboutMovieBinding binding;
-    private static final String TAG = "AboutMovieFragment";
+    FragmentAboutSimilarMovieBinding binding;
+    private static final String TAG = "AboutSimilarMovieFragment";
     private Movie movie;
 
-    public AboutMovieFragment() {
+    public AboutSimilarMovieFragment() {
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
+        EventBus.getDefault().register(this);
         Log.d(TAG, "onStart: ");
     }
 
@@ -65,9 +62,7 @@ public class AboutMovieFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
+
         Log.d(TAG, "onResume: ");
     }
 
@@ -89,11 +84,10 @@ public class AboutMovieFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAboutMovieBinding.inflate(getLayoutInflater());
+        binding = FragmentAboutSimilarMovieBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
@@ -101,11 +95,11 @@ public class AboutMovieFragment extends Fragment {
     public void onNoteCreated(MessageEvent event) {
         movie = event.getMovie();
         String overview = movie.getOverview();
-        if(overview.isEmpty()){
-            binding.tvAboutMovie.setTextColor(getResources().getColor(R.color.red));
-            binding.tvAboutMovie.setText("None information");
-        }else {
-            binding.tvAboutMovie.setText(overview);
+        if (overview.isEmpty()) {
+            binding.tvAboutSimilarMovie.setTextColor(getResources().getColor(R.color.red));
+            binding.tvAboutSimilarMovie.setText("None information");
+        } else {
+            binding.tvAboutSimilarMovie.setText(overview);
         }
 
     }

@@ -198,9 +198,7 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        // Lưu chuỗi tìm kiếm
         outState.putString("stringSearch", stringSearch);
-        // Lưu danh sách phim
         outState.putSerializable("listMovie", listMovie);
     }
     public interface onBack {

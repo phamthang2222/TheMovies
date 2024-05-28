@@ -20,8 +20,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
-import vn.phamthang.themovies.custom_toast.SuccessfulToast;
-import vn.phamthang.themovies.Helper.PushObjectFirebase;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMovieView;
 import vn.phamthang.themovies.Interface.SimilarMovie.ISimilarMovieView;
@@ -30,10 +28,15 @@ import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.adapters.SimilarMovieAdapter;
 import vn.phamthang.themovies.adapters.VideoMovieAdapter;
 import vn.phamthang.themovies.adapters.ViewPagerAdapter.ViewPagerDetailMovieAdapter;
+import vn.phamthang.themovies.custom_toast.SuccessfulToast;
 import vn.phamthang.themovies.databinding.ActivityDetailBinding;
+import vn.phamthang.themovies.databinding.ActivityDetailSimilarBinding;
 import vn.phamthang.themovies.fragments.DetailMovie.AboutMovieFragment;
 import vn.phamthang.themovies.fragments.DetailMovie.CastFragment;
 import vn.phamthang.themovies.fragments.DetailMovie.ReviewFragment;
+import vn.phamthang.themovies.fragments.DetailSimilarMovie.AboutSimilarMovieFragment;
+import vn.phamthang.themovies.fragments.DetailSimilarMovie.CastSimilarFragment;
+import vn.phamthang.themovies.fragments.DetailSimilarMovie.ReviewSimilarFragment;
 import vn.phamthang.themovies.objects.BestMovieRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
@@ -48,27 +51,22 @@ import vn.phamthang.themovies.ultis.Constant;
 import vn.phamthang.themovies.ultis.DataManager;
 import vn.phamthang.themovies.ultis.MessageEvent;
 
-public class DetailActivity extends AppCompatActivity implements IPostFavMovieView, IMovieView, IVideoMovieView, ISimilarMovieView,
-        SimilarMovieAdapter.OnItemClickListener, vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView
+public class DetailSimilarActivity extends AppCompatActivity implements IPostFavMovieView, IMovieView, IVideoMovieView
 {
 
     private PostFavMoviePresenter postFavMoviePresenter;
     private MoviePresenter mMoviePresenter;
-    private DetailMoviePresenter mDetailMoviePresenter;
     private VideoMoviePresenter mVideoMoviePresenter;
-    private SimilarMoviePresenter mSimilarMoviePresenter;
     private VideoMovieAdapter mVideoMovieAdapter;
-    private SimilarMovieAdapter mSimilarMovieAdapter;
 
-    private ActivityDetailBinding binding;
+    private ActivityDetailSimilarBinding binding;
     private Movie movie = new Movie();
     private ArrayList<vn.phamthang.themovies.objects.Video.Result> listVideoTrailer;
-    private ArrayList<Result> listSimilarMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDetailBinding.inflate(getLayoutInflater());
+        binding = ActivityDetailSimilarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(getResources().getColor(R.color.prime_color));
 
@@ -83,26 +81,19 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         //presenter
         mMoviePresenter = new MoviePresenter(this);
         mVideoMoviePresenter = new VideoMoviePresenter(this);
-        mSimilarMoviePresenter = new SimilarMoviePresenter(this);
-        mDetailMoviePresenter = new DetailMoviePresenter(this);
         //----------------------------------------------------------------------------------
         //array list
         listVideoTrailer = new ArrayList<>();
-        listSimilarMovie = new ArrayList<>();
         //----------------------------------------------------------------------------------
         //adapter
         mVideoMovieAdapter = new VideoMovieAdapter(listVideoTrailer);
-        mSimilarMovieAdapter = new SimilarMovieAdapter(listSimilarMovie,this);
         mMoviePresenter.getFavMovie();
         //----------------------------------------------------------------------------------
         //recyclerview
         binding.rcvVideoTrailer.setAdapter(mVideoMovieAdapter);
         binding.rcvVideoTrailer.setLayoutManager(
-                new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                new LinearLayoutManager(DetailSimilarActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
-        binding.rcvSimilarMovie.setAdapter(mSimilarMovieAdapter);
-        binding.rcvSimilarMovie.setLayoutManager(
-                new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
         //----------------------------------------------------------------------------------
         // set Data
         Intent intent = getIntent();
@@ -128,15 +119,10 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
             binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
         }
         getVideoMovie(idMovie);
-        getSimilarMovie(idMovie);
     }
 
     private void getVideoMovie(int idMovie) {
         mVideoMoviePresenter.getDetailMovie(idMovie);
-    }
-
-    private void getSimilarMovie(int idMovie) {
-        mSimilarMoviePresenter.getSimilar(idMovie);
     }
 
     private void initView() {
@@ -173,11 +159,11 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 //            PushObjectFirebase.pushMovieRequestToFirebase(requestAddToFav);
         });
         binding.tabLayoutDetailMovie.setupWithViewPager(binding.viewPagerDetailMovie);
-        ViewPagerDetailMovieAdapter viewPagerDetailMovieAdapter = new ViewPagerDetailMovieAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPagerDetailMovieAdapter.addFragment(new AboutMovieFragment(), "About");
-        viewPagerDetailMovieAdapter.addFragment(new ReviewFragment(), "Review");
-        viewPagerDetailMovieAdapter.addFragment(new CastFragment(), "Cast");
-        binding.viewPagerDetailMovie.setAdapter(viewPagerDetailMovieAdapter);
+        ViewPagerDetailMovieAdapter viewPagerDetailMovieAdapter2 = new ViewPagerDetailMovieAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerDetailMovieAdapter2.addFragment(new AboutSimilarMovieFragment(), "About");
+        viewPagerDetailMovieAdapter2.addFragment(new ReviewSimilarFragment(), "Review");
+        viewPagerDetailMovieAdapter2.addFragment(new CastSimilarFragment(), "Cast");
+        binding.viewPagerDetailMovie.setAdapter(viewPagerDetailMovieAdapter2);
         binding.viewPagerDetailMovie.setOffscreenPageLimit(4);
 
         //truyền dữ liệu cho các sub fragment
@@ -213,7 +199,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         mVideoMovieAdapter.updateData((ArrayList<vn.phamthang.themovies.objects.Video.Result>) responseVideoMovie.getResults());
         if (responseVideoMovie.getResults().isEmpty()) {
             binding.emptyVideo.setVisibility(View.VISIBLE);
-
         }
     }
 
@@ -222,20 +207,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     }
 
-    @Override
-    public void getSimilarMovieSuccess(BestMovieRespone response) {
-        listSimilarMovie.clear();
-        mSimilarMovieAdapter.updateData((ArrayList<Result>) response.getResults());
-        if (response.getResults().isEmpty()) {
-            binding.emptySimilar.setVisibility(View.VISIBLE);
 
-        }
-    }
-
-    @Override
-    public void getSimilarMovieError(String error) {
-
-    }
 
     private boolean isCheckFav(int idMovie) {
         if (Constant.wishListMovieLocal.isEmpty()) {
@@ -256,21 +228,5 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     }
 
-    @Override
-    public void onClick(int idMovie) {
-        mDetailMoviePresenter.getDetailMovie(idMovie);
-    }
 
-    @Override
-    public void getDetailMovieSuccess(Movie response) {
-        Intent intent = new Intent(this, DetailSimilarActivity.class);
-        intent.putExtra("movie",(Serializable)response);
-        startActivity(intent);
-        Animatoo.INSTANCE.animateZoom(this);
-    }
-
-    @Override
-    public void getDetailMovieError(String message) {
-
-    }
 }
