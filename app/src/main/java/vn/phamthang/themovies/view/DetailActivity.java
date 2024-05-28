@@ -139,35 +139,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         });
 
         binding.imgAddToFav.setOnClickListener(v -> {
-//            int mediaID = movie.getId();
-//            postFavMoviePresenter = new PostFavMoviePresenter(this);
-//
-//            MovieRequest requestAddToFav = new MovieRequest(mediaID, "movie", true);
-//            MovieRequest requestRemoveFromFav = new MovieRequest(mediaID, "movie", false);
-//
-//            if (Constant.wishListMovieLocal == null) {
-//
-//                Constant.wishListMovieLocal.add(requestAddToFav);
-//                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
-//
-//                postFavMoviePresenter.postFavMovie(requestAddToFav);
-//                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
-//            } else {
-//                if (!isCheckFav(mediaID)) {
-//
-//                    Constant.wishListMovieLocal.add(requestAddToFav);
-//                    DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
-//
-//                    postFavMoviePresenter.postFavMovie(requestAddToFav);
-//                    binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
-//                } else {
-//                    postFavMoviePresenter.postFavMovie(requestRemoveFromFav);
-//
-//                    Constant.wishListMovieLocal.remove(requestAddToFav);
-//                    DataManager.removeFavoriteMovie(this,Constant.wishListMovieLocal);
-//                    binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
-//                }
-//            }
             int mediaID = movie.getId();
             postFavMoviePresenter = new PostFavMoviePresenter(this);
 

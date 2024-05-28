@@ -7,5 +7,10 @@
     <string name="watch_list">Watch List</string>
     <string name="create"><u>Create</u></string>
     <string name="login"><u>Login</u></string>
+    <string name="sign_up_success">Thành công</string>
+    <string name="sign_up_failure">Thất bại</string>
+    <string name="error_empty_field">Không bỏ trống</string>
+    <string name="error_password_length">Mật khẩu dài hơn 6 kí tự</string>
+    <string name="error_password_mismatch">Không trùng mật khẩu</string>
 
 </resources>

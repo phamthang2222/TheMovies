@@ -26,7 +26,7 @@ public class SuccessfulToast {
     }
     public static void showToast() {
         toast.show();
-        binding.layoutSuccessfulToast.animate().translationX(0).setDuration(100).setStartDelay(0);
+        binding.layoutSuccessfulToast.animate().translationX(0).setDuration(1000).setStartDelay(0);
         binding.backgroundToast.animate().translationX(0).setDuration(800).setStartDelay(2500);
     }
 }

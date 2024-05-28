@@ -5,24 +5,28 @@ import java.util.List;
 import vn.phamthang.themovies.objects.request.MovieRequest;
 
 public class User {
-    private int idUser;
+    private String idUser;
+    private String email;
     private String name;
+    private String password;
     private List<MovieRequest> listFavoriteMovie;
 
     public User() {
     }
 
-    public User(int idUser, String name, List<MovieRequest> listFavoriteMovie) {
+    public User(String idUser, String email, String name, String password, List<MovieRequest> listFavoriteMovie) {
         this.idUser = idUser;
+        this.email = email;
         this.name = name;
+        this.password = password;
         this.listFavoriteMovie = listFavoriteMovie;
     }
 
-    public int getIdUser() {
+    public String getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
+    public void setIdUser(String idUser) {
         this.idUser = idUser;
     }
 
@@ -42,4 +46,19 @@ public class User {
         this.listFavoriteMovie = listFavoriteMovie;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

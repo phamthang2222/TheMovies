@@ -1,7 +1,5 @@
 package vn.phamthang.themovies.fragments;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,18 +14,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import vn.phamthang.themovies.CustomToast.SuccessfulToast;
 import vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.adapters.SpecialMovieAdapter;
@@ -40,12 +43,14 @@ import vn.phamthang.themovies.fragments.SubFragmentHome.UpComingFragment;
 import vn.phamthang.themovies.objects.BestMovieRespone;
 import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
+import vn.phamthang.themovies.objects.User.User;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.ultis.KeyBoardUtils;
 import vn.phamthang.themovies.ultis.MessageEvent;
 import vn.phamthang.themovies.view.DetailActivity;
-import vn.phamthang.themovies.view.FlashArtActivity;
+import vn.phamthang.themovies.view.LoginActivity;
+import vn.phamthang.themovies.view.SignUpActivity;
 
 public class HomeFragment extends Fragment implements IMovieView, IMovieDetailView, SpecialMovieAdapter.OnItemClickListener {
 
@@ -54,6 +59,9 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     private ArrayList<Result> mListMovie;
     private SpecialMovieAdapter specialMovieAdapter;
     private String edtSearch;
+    private String email = "";
+    private ArrayList<User> userList = new ArrayList<>();
+
 
     FragmentHomeBinding binding;
 
@@ -69,7 +77,7 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        Log.d("HomeFragment","onAttach");
+        Log.d("HomeFragment", "onAttach");
 
     }
 
@@ -111,6 +119,8 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
 
         initView();
         initData();
+//        initDataUser();
+        initUserNameCurent();
         getMostMovie();
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
@@ -140,8 +150,6 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
             edtSearch = binding.edtFind.getText().toString().trim();
             if (!edtSearch.isEmpty()) {
                 KeyBoardUtils keyBoardUtils = new KeyBoardUtils(getContext());
-
-//                EventBus.getDefault().postSticky(new MessageEvent(edtSearch));
                 EventBus.getDefault().post(new MessageEvent(edtSearch));
 
                 if (getActivity() instanceof OnFragmentInteractionListener) {
@@ -150,6 +158,13 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
 
                 keyBoardUtils.hideKeyboard(v);
             }
+        });
+        binding.imgLogout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getContext(),
+                    LoginActivity.class));
+            Animatoo.INSTANCE.animateDiagonal(getContext());
+            getActivity().finish();
         });
     }
 
@@ -195,6 +210,59 @@ public class HomeFragment extends Fragment implements IMovieView, IMovieDetailVi
     public void getDetailMovieError(String message) {
     }
 
+    private void initDataUser() {
+        getListUser();
+        String userName = "Loading...";
+        for (User user : userList) {
+            if (email.equals(user.getEmail())) {
+                userName = user.getName();
+            }
+        }
+        binding.tvUserName.setText("Hi, " + userName);
+    }
+
+    public void getListUser() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("USER");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                        User user = childSnapshot.getValue(User.class);
+                        userList.add(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void initUserNameCurent(){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference myRef = database.getReference("USER");
+            Query query = myRef.orderByChild("idUser").equalTo(userId);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        String username = snapshot.child(userId).child("name").getValue(String.class);
+                        binding.tvUserName.setText("Hi, "+username);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
+    }
     public interface OnFragmentInteractionListener {
         void onSearch();
     }
