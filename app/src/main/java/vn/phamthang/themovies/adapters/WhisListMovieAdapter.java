@@ -18,23 +18,24 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.util.ArrayList;
 
 import vn.phamthang.themovies.R;
+import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.ultis.Constant;
 
 public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdapter.WhisListMovieViewHolder> {
-    private ArrayList<Result> mListMovie;
+    private ArrayList<Movie> mListMovie;
     private Context mContext;
     private OnItemClickListener onItemClickListener;
 
 
-    public WhisListMovieAdapter(ArrayList<Result> mListSearchMovie, OnItemClickListener onItemClickListener) {
+    public WhisListMovieAdapter(ArrayList<Movie> mListSearchMovie, OnItemClickListener onItemClickListener) {
         this.mListMovie = mListSearchMovie;
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void updateData(ArrayList<Result> ListMovie) {
-        this.mListMovie.clear();
-        this.mListMovie.addAll(ListMovie);
+    public void updateData(Movie movie) {
+//        this.mListMovie.clear();
+        this.mListMovie.add(movie);
         notifyDataSetChanged();
     }
 
@@ -48,7 +49,7 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
 
     @Override
     public void onBindViewHolder(@NonNull WhisListMovieAdapter.WhisListMovieViewHolder holder, int position) {
-        Result movie = mListMovie.get(position);
+        Movie movie = mListMovie.get(position);
 
         int id = movie.getId();
         int time = (int) (movie.getPopularity() / 1);

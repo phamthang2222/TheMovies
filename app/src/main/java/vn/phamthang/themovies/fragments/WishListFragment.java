@@ -33,15 +33,17 @@ import vn.phamthang.themovies.objects.request.MovieRequest;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.presenter.PostFavMoviePresenter;
+import vn.phamthang.themovies.ultis.Constant;
 import vn.phamthang.themovies.view.DetailActivity;
 
-public class WishListFragment extends Fragment implements IMovieView, vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView,
+public class WishListFragment extends Fragment implements vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView,
         WhisListMovieAdapter.OnItemClickListener, IPostFavMovieView {
     private static final String TAG = "WishListFragment";
     private MoviePresenter mMoviePresenter;
     private DetailMoviePresenter mDetailMoviePresenter;
     private PostFavMoviePresenter postFavMoviePresenter;
-    private ArrayList<Result> mListMovie;
+    //    private ArrayList<Result> mListMovie;
+    private ArrayList<Movie> mListFavMovie;
     private WhisListMovieAdapter mAdapter;
 
     FragmentWhisListBinding binding;
@@ -65,7 +67,7 @@ public class WishListFragment extends Fragment implements IMovieView, vn.phamtha
     @Override
     public void onResume() {
         super.onResume();
-        getMostMovie();
+//        getMostMovie();
         Log.d(TAG, "onResume: ");
     }
 
@@ -94,6 +96,7 @@ public class WishListFragment extends Fragment implements IMovieView, vn.phamtha
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: ");
+
         initData();
     }
 
@@ -102,23 +105,32 @@ public class WishListFragment extends Fragment implements IMovieView, vn.phamtha
     }
 
     private void initData() {
-        mMoviePresenter = new MoviePresenter(this);
-//        mDetailMoviePresenter = new DetailMoviePresenter(this);
         mDetailMoviePresenter = new DetailMoviePresenter(this);
         postFavMoviePresenter = new PostFavMoviePresenter(this);
-        mListMovie = new ArrayList<>();
-        mAdapter = new WhisListMovieAdapter(mListMovie, this);
+        mListFavMovie = new ArrayList<>();
+
+        getListFavMovie();
+        mAdapter = new WhisListMovieAdapter(mListFavMovie, this);
         binding.rcvFavMovie.setAdapter(mAdapter);
         binding.rcvFavMovie.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+    }
 
+    private void getListFavMovie() {
+        if (Constant.wishListMovieLocal != null) {
+            for (Movie movieRequest : Constant.wishListMovieLocal) {
+                int movieId = movieRequest.getId();
+                mDetailMoviePresenter.getDetailMovie(movieId);
+            }
+        }
     }
 
     @Override
     public void getDetailMovieSuccess(Movie response) {
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra("movie", (Serializable) response);
-        startActivity(intent);
+
+        mListFavMovie.add(response);
+        mAdapter.updateData(response);
+
     }
 
     @Override
@@ -126,24 +138,18 @@ public class WishListFragment extends Fragment implements IMovieView, vn.phamtha
 
     }
 
-    @Override
-    public void getMovieSuccess(BestMovieRespone response) {
-        mListMovie.clear();
-        mAdapter.updateData((ArrayList<Result>) response.getResults());
-        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation);
-        binding.rcvFavMovie.setLayoutAnimation(layoutAnimationController);
+//    public void getMovieSuccess(BestMovieRespone response) {
+//        mListMovie.clear();
+//        mAdapter.updateData((ArrayList<Result>) response.getResults());
+//        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation);
+//        binding.rcvFavMovie.setLayoutAnimation(layoutAnimationController);
+//    }
 
-    }
-
-    @Override
-    public void getMovieError(String error) {
-
-    }
 
     @Override
     public void postMovieSuccess(ResponseBody responseBody) {
         Toast.makeText(getContext(), "Đã xoá khỏi WishList", Toast.LENGTH_SHORT).show();
-        getMostMovie();
+//        getMostMovie();
     }
 
     @Override
@@ -154,7 +160,7 @@ public class WishListFragment extends Fragment implements IMovieView, vn.phamtha
     @Override
     public void onItemClick(int idMovie, int layout) {
         if (layout == R.id.itemFavMovie) {
-            mDetailMoviePresenter.getDetailMovie(idMovie);
+//            mDetailMoviePresenter.getDetailMovie(idMovie);
         } else if (layout == R.id.imgRemoveMovieFromList) {
             MovieRequest request = new MovieRequest(idMovie, "movie", false);
             postFavMoviePresenter.postFavMovie(request);

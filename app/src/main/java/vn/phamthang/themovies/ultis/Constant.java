@@ -2,6 +2,7 @@ package vn.phamthang.themovies.ultis;
 
 import java.util.ArrayList;
 
+import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.request.MovieRequest;
 
 public class Constant {
@@ -49,8 +50,10 @@ public class Constant {
 //    *
 //    *
 //    Data_______________________________________________________________________________________________
-    public static ArrayList<MovieRequest> wishListMovieLocal;
+    public static ArrayList<Movie> wishListMovieLocal;
 
     //FIRE BASE
     public static final String USER = "USER";
+    public static final String FAV_MOVIE = "FAV_MOVIE";
+
 }

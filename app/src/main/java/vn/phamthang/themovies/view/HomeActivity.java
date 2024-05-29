@@ -1,22 +1,34 @@
 package vn.phamthang.themovies.view;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import vn.phamthang.themovies.Interface.FavMovieFireBase.IGetFavMovieFromFireBaseView;
 import vn.phamthang.themovies.R;
 import vn.phamthang.themovies.adapters.ViewPagerAdapter.ViewPagerMainActivityAdapter;
 import vn.phamthang.themovies.databinding.ActivityHomeBinding;
 import vn.phamthang.themovies.fragments.HomeFragment;
 import vn.phamthang.themovies.fragments.SearchFragment;
 import vn.phamthang.themovies.fragments.WishListFragment;
+import vn.phamthang.themovies.objects.Movie;
+import vn.phamthang.themovies.objects.request.MovieRequest;
+import vn.phamthang.themovies.presenter.FireBase.GetFavMovieFromFireBasePresenter;
+import vn.phamthang.themovies.ultis.Constant;
 
 
-public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, SearchFragment.onBack   {
+public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, IGetFavMovieFromFireBaseView, SearchFragment.onBack {
     ActivityHomeBinding binding;
+    private GetFavMovieFromFireBasePresenter mGetFavMovieFromFireBasePresenter;
+
     private ViewPagerMainActivityAdapter viewPagerMainActivityAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +39,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         getWindow().setStatusBarColor(getResources().getColor(R.color.prime_color));
 
         initView();
+        initData();
         setupBottomNavigation();
+    }
+
+    private void initData() {
+        mGetFavMovieFromFireBasePresenter = new GetFavMovieFromFireBasePresenter(this);
+        getListFavFromFireBase();
     }
 
     private void setupBottomNavigation() {
@@ -48,7 +66,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     private void initView() {
-        viewPagerMainActivityAdapter = new ViewPagerMainActivityAdapter(getSupportFragmentManager(),FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerMainActivityAdapter = new ViewPagerMainActivityAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPagerMainActivityAdapter.addFragment(new HomeFragment());
         viewPagerMainActivityAdapter.addFragment(new SearchFragment());
         viewPagerMainActivityAdapter.addFragment(new WishListFragment());
@@ -62,7 +80,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         binding.bottomNavigation.setSelectedItemId(R.id.home);
                         break;
@@ -83,7 +101,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
 
-
+    private void getListFavFromFireBase() {
+        mGetFavMovieFromFireBasePresenter.getFavMovieFromFireBase();
+    }
 
     @Override
     public void onSearch() {
@@ -98,5 +118,18 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
 
+    @Override
+    public void GetFavMovieFromFireBaseSuccess(List<Movie> movieRequestArrayList) {
+        if (Constant.wishListMovieLocal != null) {
+            Constant.wishListMovieLocal.clear();
+        }
+        Constant.wishListMovieLocal = (ArrayList<Movie>) movieRequestArrayList;
 
+
+    }
+
+    @Override
+    public void GetFavMovieFromFireBaseError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
 }

@@ -70,7 +70,7 @@ public class DetailSimilarActivity extends AppCompatActivity implements IPostFav
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(getResources().getColor(R.color.prime_color));
 
-        Constant.wishListMovieLocal = DataManager.loadFavoriteMovie(this);
+       // Constant.wishListMovieLocal = DataManager.loadFavoriteMovie(this);
         initData();
         initView();
 
@@ -140,23 +140,22 @@ public class DetailSimilarActivity extends AppCompatActivity implements IPostFav
 
 //            sử dụng SharedPre để quản lí wish list
 //            ---------------------------------------------------------------------------------------------------------
-            if (Constant.wishListMovieLocal == null) {
-                Constant.wishListMovieLocal = new ArrayList<>();
-            }
-            if (!isCheckFav(mediaID)) {
-                Constant.wishListMovieLocal.add(requestAddToFav);
-                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
-                postFavMoviePresenter.postFavMovie(requestAddToFav);
-                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
-            } else {
-                postFavMoviePresenter.postFavMovie(requestRemoveFromFav);
-                Constant.wishListMovieLocal.removeIf(movieRequest -> movieRequest.getMedia_id() == mediaID);
-                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
-                binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
-            }
-            //sử dụng FireBase để quản lí wish list của nhiều user
+//            if (Constant.wishListMovieLocal == null) {
+//                Constant.wishListMovieLocal = new ArrayList<>();
+//            }
+//            if (!isCheckFav(mediaID)) {
+//                Constant.wishListMovieLocal.add(requestAddToFav);
+//                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
+//                postFavMoviePresenter.postFavMovie(requestAddToFav);
+//                binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
+//            } else {
+//                postFavMoviePresenter.postFavMovie(requestRemoveFromFav);
+//                Constant.wishListMovieLocal.removeIf(movieRequest -> movieRequest.getMedia_id() == mediaID);
+//                DataManager.saveFavoriteMovie(this, Constant.wishListMovieLocal);
+//                binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
+//            }
+//            //sử dụng FireBase để quản lí wish list của nhiều user
             //---------------------------------------------------------------------------------------------------------
-//            PushObjectFirebase.pushMovieRequestToFirebase(requestAddToFav);
         });
         binding.tabLayoutDetailMovie.setupWithViewPager(binding.viewPagerDetailMovie);
         ViewPagerDetailMovieAdapter viewPagerDetailMovieAdapter2 = new ViewPagerDetailMovieAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -208,13 +207,12 @@ public class DetailSimilarActivity extends AppCompatActivity implements IPostFav
     }
 
 
-
     private boolean isCheckFav(int idMovie) {
         if (Constant.wishListMovieLocal.isEmpty()) {
             return false;
         }
-        for (MovieRequest movieRequest : Constant.wishListMovieLocal) {
-            if (movieRequest.getMedia_id() == idMovie) {
+        for (Movie movieRequest : Constant.wishListMovieLocal) {
+            if (movieRequest.getId() == idMovie) {
                 return true;
             }
         }
@@ -227,6 +225,5 @@ public class DetailSimilarActivity extends AppCompatActivity implements IPostFav
         Animatoo.INSTANCE.animateFade(this);
 
     }
-
 
 }

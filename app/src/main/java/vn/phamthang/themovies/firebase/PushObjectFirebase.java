@@ -1,6 +1,4 @@
-package vn.phamthang.themovies.Helper;
-
-import androidx.annotation.NonNull;
+package vn.phamthang.themovies.firebase;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,13 +16,9 @@ public class PushObjectFirebase {
     public static void pushMovieRequestToFirebase(MovieRequest movieRequest) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
         String userId = currentUser.getUid();
-
         DatabaseReference myRef = database.getReference(FAV_MOVIE).child(userId);
-
         myRef.setValue(movieRequest);
     }
     public static void removeMovieRequestFromFirebase(final String mediaId) {
@@ -49,7 +43,6 @@ public class PushObjectFirebase {
                     }
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
