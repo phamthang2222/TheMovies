@@ -24,6 +24,8 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import vn.phamthang.themovies.Interface.FavMovieFireBase.IGetFavMovieFromFireBaseView;
 import vn.phamthang.themovies.Interface.PostMovieToFireBase.IPostMovieToFireBaseView;
+import vn.phamthang.themovies.Interface.RemoveMovieFromFireBase.IRemoveMovieFromFireBaseView;
+import vn.phamthang.themovies.custom_toast.FailToast;
 import vn.phamthang.themovies.custom_toast.SuccessfulToast;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMovieView;
@@ -44,6 +46,7 @@ import vn.phamthang.themovies.objects.Video.ResultVideoMovie;
 import vn.phamthang.themovies.objects.request.MovieRequest;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
 import vn.phamthang.themovies.presenter.FireBase.GetFavMovieFromFireBasePresenter;
+import vn.phamthang.themovies.presenter.FireBase.RemoveMovieFromFireBasePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.presenter.PostFavMoviePresenter;
 import vn.phamthang.themovies.presenter.FireBase.PostMovieToFireBasePresenter;
@@ -54,10 +57,10 @@ import vn.phamthang.themovies.ultis.DataManager;
 import vn.phamthang.themovies.ultis.MessageEvent;
 
 public class DetailActivity extends AppCompatActivity implements IPostFavMovieView, IMovieView, IVideoMovieView, ISimilarMovieView,
-        SimilarMovieAdapter.OnItemClickListener, IPostMovieToFireBaseView, vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView {
+        SimilarMovieAdapter.OnItemClickListener, IPostMovieToFireBaseView, IRemoveMovieFromFireBaseView, vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView {
 
-    private PostFavMoviePresenter postFavMoviePresenter;
     private PostMovieToFireBasePresenter mPostMovieToFireBasePresenter;
+    private RemoveMovieFromFireBasePresenter mRemoveMovieFromFireBasePresenter;
     private MoviePresenter mMoviePresenter;
     private DetailMoviePresenter mDetailMoviePresenter;
     private VideoMoviePresenter mVideoMoviePresenter;
@@ -90,6 +93,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
         mVideoMoviePresenter = new VideoMoviePresenter(this);
         mSimilarMoviePresenter = new SimilarMoviePresenter(this);
         mDetailMoviePresenter = new DetailMoviePresenter(this);
+        mRemoveMovieFromFireBasePresenter = new RemoveMovieFromFireBasePresenter(this);
         mPostMovieToFireBasePresenter = new PostMovieToFireBasePresenter(this);
 
         //----------------------------------------------------------------------------------
@@ -147,7 +151,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     }
 
 
-
     private void initView() {
         binding.btnBack.setOnClickListener(v -> {
             finish();
@@ -156,10 +159,9 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
         binding.imgAddToFav.setOnClickListener(v -> {
             int mediaID = movie.getId();
-            postFavMoviePresenter = new PostFavMoviePresenter(this);
 
-            MovieRequest requestAddToFav = new MovieRequest(mediaID, "movie", true);
-            MovieRequest requestRemoveFromFav = new MovieRequest(mediaID, "movie", false);
+//            MovieRequest requestAddToFav = new MovieRequest(mediaID, "movie", true);
+//            MovieRequest requestRemoveFromFav = new MovieRequest(mediaID, "movie", false);
 
 //            sử dụng SharedPre để quản lí wish list
 ////            ---------------------------------------------------------------------------------------------------------
@@ -179,7 +181,13 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 //            }
             //sử dụng FireBase để quản lí wish list của nhiều user
             //---------------------------------------------------------------------------------------------------------
-            mPostMovieToFireBasePresenter.PostMovieToFireBase(movie);
+
+            if (!isCheckFav(mediaID)) {
+                mPostMovieToFireBasePresenter.PostMovieToFireBase(movie);
+            } else {
+                mRemoveMovieFromFireBasePresenter.removeMovieFromFireBase(mediaID);
+
+            }
 
         });
         binding.tabLayoutDetailMovie.setupWithViewPager(binding.viewPagerDetailMovie);
@@ -198,6 +206,7 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     @Override
     public void postMovieSuccess(ResponseBody responseBody) {
         new SuccessfulToast(this, "Cập nhật thành công!");
+        binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
         SuccessfulToast.showToast();
     }
 
@@ -260,18 +269,6 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Animatoo.INSTANCE.animateFade(this);
-
-    }
-
-    @Override
-    public void onClick(int idMovie) {
-        mDetailMoviePresenter.getDetailMovie(idMovie);
-    }
-
-    @Override
     public void getDetailMovieSuccess(Movie response) {
         Intent intent = new Intent(this, DetailSimilarActivity.class);
         intent.putExtra("movie", (Serializable) response);
@@ -286,14 +283,38 @@ public class DetailActivity extends AppCompatActivity implements IPostFavMovieVi
 
     @Override
     public void IPostMovieToFireBaseSuccess(Movie request) {
-        Toast.makeText(this, "thanh cong", Toast.LENGTH_SHORT).show();
+        new SuccessfulToast(this,"Add to wishlist").showToast();
+        binding.imgAddToFav.setImageResource(R.drawable.ic_wishlisted);
     }
 
     @Override
     public void IPostMovieToFireBaseError(String error) {
-        Toast.makeText(this, "that bai", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Fail", Toast.LENGTH_SHORT).show();
 
     }
 
+    @Override
+    public void IRemoveMovieFromFireBaseSuccess(String success) {
+        new SuccessfulToast(this,"Remove from wishlist").showToast();
+        binding.imgAddToFav.setImageResource(R.drawable.ic_whislist);
 
+    }
+
+    @Override
+    public void IRemoveMovieFromFireBaseError(String error) {
+        new FailToast(this,"Fail").showToast();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.INSTANCE.animateFade(this);
+
+    }
+
+    @Override
+    public void onClick(int idMovie) {
+        mDetailMoviePresenter.getDetailMovie(idMovie);
+    }
 }

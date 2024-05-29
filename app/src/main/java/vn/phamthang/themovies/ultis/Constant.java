@@ -50,7 +50,7 @@ public class Constant {
 //    *
 //    *
 //    Data_______________________________________________________________________________________________
-    public static ArrayList<Movie> wishListMovieLocal;
+    public static ArrayList<Movie> wishListMovieLocal = new ArrayList<>();
 
     //FIRE BASE
     public static final String USER = "USER";

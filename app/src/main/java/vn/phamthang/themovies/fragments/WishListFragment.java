@@ -17,10 +17,14 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
+import vn.phamthang.themovies.Interface.FavMovieFireBase.IGetFavMovieFromFireBaseView;
 import vn.phamthang.themovies.Interface.MostMovie.IMovieView;
 import vn.phamthang.themovies.Interface.PostFavMovie.IPostFavMovieView;
 import vn.phamthang.themovies.R;
@@ -31,19 +35,19 @@ import vn.phamthang.themovies.objects.Movie;
 import vn.phamthang.themovies.objects.Result;
 import vn.phamthang.themovies.objects.request.MovieRequest;
 import vn.phamthang.themovies.presenter.DetailMoviePresenter;
+import vn.phamthang.themovies.presenter.FireBase.GetFavMovieFromFireBasePresenter;
 import vn.phamthang.themovies.presenter.MoviePresenter;
 import vn.phamthang.themovies.presenter.PostFavMoviePresenter;
 import vn.phamthang.themovies.ultis.Constant;
 import vn.phamthang.themovies.view.DetailActivity;
 
-public class WishListFragment extends Fragment implements vn.phamthang.themovies.Interface.MostMovie.DetailMovie.IMovieDetailView,
-        WhisListMovieAdapter.OnItemClickListener, IPostFavMovieView {
+public class WishListFragment extends Fragment implements
+        WhisListMovieAdapter.OnItemClickListener, IGetFavMovieFromFireBaseView, IPostFavMovieView {
     private static final String TAG = "WishListFragment";
-    private MoviePresenter mMoviePresenter;
-    private DetailMoviePresenter mDetailMoviePresenter;
     private PostFavMoviePresenter postFavMoviePresenter;
-    //    private ArrayList<Result> mListMovie;
-    private ArrayList<Movie> mListFavMovie;
+    private GetFavMovieFromFireBasePresenter mGetFavMovieFromFireBasePresenter;
+
+    private ArrayList<Movie> mListMovie;
     private WhisListMovieAdapter mAdapter;
 
     FragmentWhisListBinding binding;
@@ -67,7 +71,7 @@ public class WishListFragment extends Fragment implements vn.phamthang.themovies
     @Override
     public void onResume() {
         super.onResume();
-//        getMostMovie();
+        getListFavFromFireBase();
         Log.d(TAG, "onResume: ");
     }
 
@@ -100,56 +104,29 @@ public class WishListFragment extends Fragment implements vn.phamthang.themovies
         initData();
     }
 
-    private void getMostMovie() {
-        mMoviePresenter.getFavMovie();
-    }
 
     private void initData() {
-        mDetailMoviePresenter = new DetailMoviePresenter(this);
         postFavMoviePresenter = new PostFavMoviePresenter(this);
-        mListFavMovie = new ArrayList<>();
+        mGetFavMovieFromFireBasePresenter = new GetFavMovieFromFireBasePresenter(this);
+        mListMovie = new ArrayList<>();
 
-        getListFavMovie();
-        mAdapter = new WhisListMovieAdapter(mListFavMovie, this);
+//        getListFavFromFireBase();
+
+        mAdapter = new WhisListMovieAdapter(mListMovie, this);
         binding.rcvFavMovie.setAdapter(mAdapter);
-        binding.rcvFavMovie.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-    }
-
-    private void getListFavMovie() {
-        if (Constant.wishListMovieLocal != null) {
-            for (Movie movieRequest : Constant.wishListMovieLocal) {
-                int movieId = movieRequest.getId();
-                mDetailMoviePresenter.getDetailMovie(movieId);
-            }
-        }
-    }
-
-    @Override
-    public void getDetailMovieSuccess(Movie response) {
-
-        mListFavMovie.add(response);
-        mAdapter.updateData(response);
-
-    }
-
-    @Override
-    public void getDetailMovieError(String message) {
-
-    }
-
-//    public void getMovieSuccess(BestMovieRespone response) {
-//        mListMovie.clear();
-//        mAdapter.updateData((ArrayList<Result>) response.getResults());
 //        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation);
 //        binding.rcvFavMovie.setLayoutAnimation(layoutAnimationController);
-//    }
+//        binding.rcvFavMovie.setLayoutManager(
+//                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+    }
 
+    private void getListFavFromFireBase() {
+        mGetFavMovieFromFireBasePresenter.getFavMovieFromFireBase();
+    }
 
     @Override
     public void postMovieSuccess(ResponseBody responseBody) {
         Toast.makeText(getContext(), "Đã xoá khỏi WishList", Toast.LENGTH_SHORT).show();
-//        getMostMovie();
     }
 
     @Override
@@ -157,14 +134,34 @@ public class WishListFragment extends Fragment implements vn.phamthang.themovies
 
     }
 
+
+
+    @Override
+    public void GetFavMovieFromFireBaseSuccess(List<Movie> movieRequestArrayList) {
+        if(!mListMovie.equals(movieRequestArrayList)){
+            mListMovie.clear();
+            mAdapter.updateData((ArrayList<Movie>) movieRequestArrayList);
+            LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation);
+            binding.rcvFavMovie.setLayoutAnimation(layoutAnimationController);
+            binding.rcvFavMovie.setLayoutManager(
+                    new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        }
+    }
+
+    @Override
+    public void GetFavMovieFromFireBaseError(String error) {
+
+    }
     @Override
     public void onItemClick(int idMovie, int layout) {
         if (layout == R.id.itemFavMovie) {
-//            mDetailMoviePresenter.getDetailMovie(idMovie);
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra("movie",(Serializable)mListMovie.get(idMovie));
+            startActivity(intent);
+            Animatoo.INSTANCE.animateZoom(getActivity());
         } else if (layout == R.id.imgRemoveMovieFromList) {
             MovieRequest request = new MovieRequest(idMovie, "movie", false);
             postFavMoviePresenter.postFavMovie(request);
         }
     }
-
 }

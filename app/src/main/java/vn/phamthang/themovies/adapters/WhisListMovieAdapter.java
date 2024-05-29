@@ -33,9 +33,9 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void updateData(Movie movie) {
-//        this.mListMovie.clear();
-        this.mListMovie.add(movie);
+    public void updateData(ArrayList<Movie> listMovie) {
+        this.mListMovie.clear();
+        this.mListMovie.addAll(listMovie);
         notifyDataSetChanged();
     }
 
@@ -63,8 +63,10 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
                 .load(Constant.convertLinkImage(movie.getPosterPath()))
                 .transform(new CenterCrop(), new RoundedCorners(30)) // crop and border
                 .into(holder.imgMovie);
-        holder.itemFavMovie.setOnClickListener(v -> onItemClickListener.onItemClick(id, R.id.itemFavMovie));
-        holder.imgRemoveMovieFromList.setOnClickListener(v -> onItemClickListener.onItemClick(id, R.id.imgRemoveMovieFromList));
+        holder.itemFavMovie.setOnClickListener(v ->
+                onItemClickListener.onItemClick(position, R.id.itemFavMovie));
+        holder.imgRemoveMovieFromList.setOnClickListener(v ->
+                onItemClickListener.onItemClick(id, R.id.imgRemoveMovieFromList));
     }
 
     @Override
@@ -91,7 +93,7 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int idMovie, int layout);
+        void onItemClick(int position, int layout);
     }
 
 }

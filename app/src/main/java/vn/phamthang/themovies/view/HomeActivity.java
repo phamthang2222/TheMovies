@@ -42,7 +42,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         initData();
         setupBottomNavigation();
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getListFavFromFireBase();
+    }
     private void initData() {
         mGetFavMovieFromFireBasePresenter = new GetFavMovieFromFireBasePresenter(this);
         getListFavFromFireBase();
@@ -120,12 +124,10 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     @Override
     public void GetFavMovieFromFireBaseSuccess(List<Movie> movieRequestArrayList) {
-        if (Constant.wishListMovieLocal != null) {
+        if(Constant.wishListMovieLocal!=null){
             Constant.wishListMovieLocal.clear();
         }
         Constant.wishListMovieLocal = (ArrayList<Movie>) movieRequestArrayList;
-
-
     }
 
     @Override
