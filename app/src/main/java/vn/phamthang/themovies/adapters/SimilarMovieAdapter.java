@@ -57,7 +57,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
         }
         holder.tvTitleSimilarMovie.setText(similarMovie.getTitle());
         holder.layout.setOnClickListener(v -> {
-            onItemClickListener.onClick(similarMovie.getId());
+            onItemClickListener.onClick(similarMovie);
         });
     }
 
@@ -79,6 +79,6 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
     }
 
     public interface OnItemClickListener{
-        void onClick(int id);
+        void onClick(Result result);
     }
 }

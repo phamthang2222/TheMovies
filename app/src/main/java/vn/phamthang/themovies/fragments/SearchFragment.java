@@ -1,5 +1,6 @@
 package vn.phamthang.themovies.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -128,6 +132,9 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
                 ((onBack) getActivity()).onBack();
             }
         });
+        binding.popup.setOnClickListener(v -> {
+            showPopup("Tìm kiếm film mà bạn muốn");
+        });
     }
 
     @Override
@@ -188,7 +195,6 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
 
     @Override
     public void getDetailMovieError(String message) {
-
     }
 
     @Override
@@ -200,6 +206,24 @@ public class SearchFragment extends Fragment implements IMovieView, SearchMovieA
         super.onSaveInstanceState(outState);
         outState.putString("stringSearch", stringSearch);
         outState.putSerializable("listMovie", listMovie);
+    }
+    private void showPopup(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View popupView = inflater.inflate(R.layout.layout_popup, null);
+        TextView textView = popupView.findViewById(R.id.textView5);
+        textView.setText(text);
+        // Create the AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialog);
+        builder.setView(popupView);
+
+        AlertDialog alertDialog = builder.create();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(alertDialog.getWindow().getAttributes());
+        layoutParams.gravity = Gravity.TOP ;  // Change this to the desired position
+        layoutParams.y = 30;  // Y position
+        alertDialog.getWindow().setAttributes(layoutParams);
+        alertDialog.show();
+        // Apply the custom layout parameters
     }
     public interface onBack {
         void onBack();

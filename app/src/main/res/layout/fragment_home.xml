@@ -16,7 +16,7 @@
         android:fontFamily="@font/montserrat_bold"
         android:paddingTop="@dimen/_10sdp"
         android:paddingBottom="@dimen/_10sdp"
-        android:text="Hi,..."
+        android:text="Hi,"
         android:textColor="@color/orange"
         android:textSize="@dimen/_14sdp"
         app:layout_constraintStart_toStartOf="@+id/textView"

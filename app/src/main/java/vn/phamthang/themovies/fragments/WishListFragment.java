@@ -1,5 +1,6 @@
 package vn.phamthang.themovies.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -100,8 +104,14 @@ public class WishListFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: ");
-
+        initView();
         initData();
+    }
+
+    private void initView() {
+        binding.popupp.setOnClickListener(v -> {
+            showPopup("Danh sách phim yêu thích");
+        });
     }
 
 
@@ -151,6 +161,25 @@ public class WishListFragment extends Fragment implements
     @Override
     public void GetFavMovieFromFireBaseError(String error) {
 
+    }
+
+    private void showPopup(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View popupView = inflater.inflate(R.layout.layout_popup, null);
+        TextView textView = popupView.findViewById(R.id.textView5);
+        textView.setText(text);
+        // Create the AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialog);
+        builder.setView(popupView);
+
+        AlertDialog alertDialog = builder.create();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(alertDialog.getWindow().getAttributes());
+        layoutParams.gravity = Gravity.TOP ;  // Change this to the desired position
+        layoutParams.y = 30;  // Y position
+        alertDialog.getWindow().setAttributes(layoutParams);
+        alertDialog.show();
+        // Apply the custom layout parameters
     }
     @Override
     public void onItemClick(int idMovie, int layout) {

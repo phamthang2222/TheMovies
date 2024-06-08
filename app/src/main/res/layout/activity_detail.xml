@@ -40,13 +40,14 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_16sdp" />
 
-        <ImageView
+
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/imgAddToFav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/_32sdp"
-            app:srcCompat="@drawable/ic_whislist" />
+            app:srcCompat="@drawable/ic_whislist"/>
 
     </LinearLayout>
 
@@ -54,6 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
@@ -335,7 +337,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 android:minHeight="@dimen/_180sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/imgBgMovie"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSimilar" />
@@ -355,6 +356,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSimilar" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRating"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_btn_rating"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="RATING"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvSimilar"
+                app:layout_constraintTop_toBottomOf="@+id/rcvSimilarMovie" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

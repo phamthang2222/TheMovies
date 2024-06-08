@@ -55,5 +55,6 @@ public class Constant {
     //FIRE BASE
     public static final String USER = "USER";
     public static final String FAV_MOVIE = "FAV_MOVIE";
+    public static final String RATING = "RATING";
 
 }

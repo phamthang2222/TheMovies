@@ -234,6 +234,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             app:srcCompat="@drawable/arrow_2" />
     </LinearLayout>
 

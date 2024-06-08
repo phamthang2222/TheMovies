@@ -99,5 +99,6 @@ public class CastFragment extends Fragment implements ICastingMovieView {
         movie = event.getMovie();
         iDMovie = movie.getId();
         mCastingMoviePresenter.getCasting(iDMovie);
+        EventBus.getDefault().removeStickyEvent(event);
     }
 }
