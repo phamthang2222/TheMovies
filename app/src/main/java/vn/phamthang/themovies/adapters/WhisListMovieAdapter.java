@@ -52,8 +52,13 @@ public class WhisListMovieAdapter extends RecyclerView.Adapter<WhisListMovieAdap
         Movie movie = mListMovie.get(position);
 
         int id = movie.getId();
-        int time = (int) (movie.getPopularity() / 1);
+        int time;
+        if (movie.getPopularity() != null) {
+            time = (int) (movie.getPopularity() / 1);
 
+        } else {
+            time = 90;
+        }
         holder.tvTitle.setText(movie.getTitle());
         holder.tvCalendar.setText(movie.getReleaseDate());
         holder.tvTime.setText(time + " Minutes");

@@ -1,6 +1,8 @@
 package vn.phamthang.themovies.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +41,7 @@ public class VideoMovieAdapter extends RecyclerView.Adapter<VideoMovieAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VideoMovieAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Result video = mListVideo.get(position);
 
         WebView webView = holder.webView;
@@ -54,7 +56,6 @@ public class VideoMovieAdapter extends RecyclerView.Adapter<VideoMovieAdapter.Vi
         String videoId = video.getKey();
         String videoUrl = "https://www.youtube.com/embed/" + videoId;
         webView.loadUrl(videoUrl);
-
     }
 
     @Override
